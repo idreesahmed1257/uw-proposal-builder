@@ -11,8 +11,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@langchain/openai": "^1.5.5",
-    "@langchain/pinecone": "^1.0.3",
     "@pinecone-database/pinecone": "^8.0.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
