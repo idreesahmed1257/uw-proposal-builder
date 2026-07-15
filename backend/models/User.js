@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false, // never return password by default in queries
     },
+    role: {
+      type: String,
+      enum: ['member', 'admin'],
+      default: 'member',
+    },
   },
   { timestamps: true }
 );

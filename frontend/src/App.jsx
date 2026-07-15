@@ -3,13 +3,16 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import AuthPage from './pages/AuthPage';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
+import AdminPage from './pages/AdminPage';
 import { fetchChats, createChat, fetchChat, deleteChat, sendMessage } from './api/chats';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function MainApp() {
   const { user } = useAuth();
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
   const [messages, setMessages] = useState([]);
+  const navigate = useNavigate();
 
   const loadChats = async () => {
     const data = await fetchChats();
@@ -24,6 +27,7 @@ function MainApp() {
     setActiveChatId(chatId);
     const { messages } = await fetchChat(chatId);
     setMessages(messages);
+    navigate('/');
   };
 
   const handleNewChat = () => {
@@ -31,6 +35,7 @@ function MainApp() {
     // sends a first message, so we don't litter empty "New Chat" entries.
     setActiveChatId(null);
     setMessages([]);
+    navigate('/');
   };
 
   const handleDeleteChat = async (chatId) => {
@@ -71,12 +76,22 @@ function MainApp() {
         onNewChat={handleNewChat}
         onDeleteChat={handleDeleteChat}
       />
-      <ChatWindow
-        activeChat={activeChatId}
-        messages={messages}
-        onSend={handleSend}
-        userName={user?.name}
-      />
+      <div style={{ flex: 1, height: '100vh', overflow: 'hidden' }}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ChatWindow
+                activeChat={activeChatId}
+                messages={messages}
+                onSend={handleSend}
+                userName={user?.name}
+              />
+            }
+          />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
+      </div>
     </div>
   );
 }

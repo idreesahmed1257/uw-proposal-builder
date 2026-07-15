@@ -43,6 +43,7 @@
   from {
     transform: translate(0, 0);
   }
+
   to {
     transform: translate(40px, 30px);
   }
@@ -52,12 +53,14 @@
   from {
     transform: translate(0, 0);
   }
+
   to {
     transform: translate(-30px, -40px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .auth-screen::before,
   .auth-screen::after {
     animation: none;

@@ -1,9 +1,11 @@
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import './Sidebar.css';
 
 export default function Sidebar({ chats, activeChatId, onSelectChat, onNewChat, onDeleteChat }) {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const initial = user?.name ? user.name.charAt(0).toUpperCase() : '?';
 
@@ -20,6 +22,15 @@ export default function Sidebar({ chats, activeChatId, onSelectChat, onNewChat, 
         </svg>
         New chat
       </button>
+
+      {user?.role === 'admin' && (
+        <button className="new-chat-btn admin-btn" onClick={() => navigate('/admin')} style={{ marginTop: '0.5rem', background: 'linear-gradient(135deg, #7c3aed, #4f46e5)', borderColor: 'transparent' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Admin Panel
+        </button>
+      )}
 
       <div className="sidebar-section-label">Recents</div>
 
