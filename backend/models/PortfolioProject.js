@@ -1,11 +1,5 @@
 const mongoose = require('mongoose');
 
-// This is the KNOWLEDGE BASE — DevNauts' own past projects/portfolio entries
-// (e.g. "Visent"). Your RAG teammate will read from this collection, chunk
-// the text fields (mainly `description` and `skillsAndDeliverables`), embed
-// them, and upsert the resulting vectors into Pinecone. This document's
-// _id is what they'll use as (or map to) the Pinecone vector metadata,
-// so results can be traced back to the source project.
 const portfolioProjectSchema = new mongoose.Schema(
   {
     title: {

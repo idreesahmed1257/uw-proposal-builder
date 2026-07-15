@@ -1,7 +1,3 @@
-// Run with: node seed/seedPortfolio.js
-// Populates the PortfolioProject collection so your teammate can start
-// building the chunking/embedding pipeline against real data right away.
-
 require('dotenv').config();
 require('dns').setServers(['8.8.8.8', '8.8.4.4']);
 const mongoose = require('mongoose');
