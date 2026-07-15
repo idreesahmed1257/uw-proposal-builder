@@ -1,0 +1,225 @@
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* Signature element: a quiet dual-tone glow echoing the logo's cyan/purple,
+   sitting behind the card like a distant nebula. Slow, ambient, not busy. */
+.auth-screen::before,
+.auth-screen::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.auth-screen::before {
+  width: 480px;
+  height: 480px;
+  background: var(--purple);
+  opacity: 0.16;
+  top: -120px;
+  left: -120px;
+  animation: drift-a 14s ease-in-out infinite alternate;
+}
+
+.auth-screen::after {
+  width: 420px;
+  height: 420px;
+  background: var(--cyan);
+  opacity: 0.13;
+  bottom: -140px;
+  right: -100px;
+  animation: drift-b 16s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(40px, 30px);
+  }
+}
+
+@keyframes drift-b {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-30px, -40px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-screen::before,
+  .auth-screen::after {
+    animation: none;
+  }
+}
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+}
+
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.auth-brand img {
+  width: 48px;
+  height: 48px;
+}
+
+.auth-brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.auth-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.auth-heading h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: var(--text);
+}
+
+.auth-heading p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.auth-tabs {
+  display: flex;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  margin-bottom: 24px;
+}
+
+.auth-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius-md) - 3px);
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.auth-tab.active {
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  color: #06070a;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-field label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.auth-field input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 11px 13px;
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 0.15s ease;
+}
+
+.auth-field input:focus {
+  border-color: var(--cyan);
+  outline: none;
+}
+
+.auth-field input::placeholder {
+  color: var(--text-faint);
+}
+
+.auth-error {
+  font-size: 13px;
+  color: #ff8a8a;
+  background: rgba(255, 100, 100, 0.08);
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+
+.auth-submit {
+  margin-top: 6px;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #06070a;
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.auth-submit:hover {
+  opacity: 0.92;
+}
+
+.auth-submit:active {
+  transform: scale(0.99);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 20px;
+}
+
+.auth-switch button {
+  background: none;
+  border: none;
+  color: var(--cyan);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
