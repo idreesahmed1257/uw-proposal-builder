@@ -9,7 +9,7 @@ const portfolioProjectSchema = new mongoose.Schema(
       maxlength: 70,
     },
     role: {
-      type: String, // "My Role" field
+      type: String,
       required: true,
       maxlength: 100,
     },
@@ -19,20 +19,18 @@ const portfolioProjectSchema = new mongoose.Schema(
       maxlength: 1000,
     },
     skillsAndDeliverables: {
-      type: [String], // stored as an array, one entry per numbered point
+      type: [String],
       default: [],
     },
-    // Optional metadata that'll help retrieval/filtering later
     tags: {
-      type: [String], // e.g. ["SaaS", "Electron", "Biometrics", "MongoDB"]
+      type: [String],
       default: [],
     },
     industry: {
-      type: String, // e.g. "Enterprise Security", "Healthcare"
+      type: String,
       default: '',
     },
 
-    // --- Fields for the RAG pipeline / teammate to use & update ---
     embeddingStatus: {
       type: String,
       enum: ['pending', 'chunked', 'embedded', 'failed'],

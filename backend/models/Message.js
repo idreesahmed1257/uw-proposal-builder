@@ -17,16 +17,14 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // Useful once RAG is wired in: which portfolio projects/chunks were
-    // retrieved and used to ground this specific assistant response.
     sources: [
       {
         portfolioProject: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'PortfolioProject',
         },
-        chunkId: String, // whatever id the teammate's chunking pipeline uses
-        score: Number, // similarity score, optional
+        chunkId: String,
+        score: Number,
       },
     ],
   },

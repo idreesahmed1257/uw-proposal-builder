@@ -19,7 +19,7 @@ const chatSchema = new mongoose.Schema(
       default: '',
     },
   },
-  { timestamps: true } // createdAt used for "recent chats" sorting
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('Chat', chatSchema);

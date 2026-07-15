@@ -1,8 +1,5 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
-
-// @route  POST /api/auth/register
-// @access Public
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -16,7 +13,6 @@ const registerUser = async (req, res) => {
             return res.status(409).json({ message: 'An account with this email already exists' });
         }
 
-        // password gets hashed automatically by the pre('save') hook on User model
         const user = await User.create({ name, email, password });
 
         return res.status(201).json({
@@ -30,8 +26,6 @@ const registerUser = async (req, res) => {
     }
 };
 
-// @route  POST /api/auth/login
-// @access Public
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -40,7 +34,6 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        // password field has select:false on the schema, so explicitly include it here
         const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
 
         if (!user || !(await user.comparePassword(password))) {
@@ -58,10 +51,7 @@ const loginUser = async (req, res) => {
     }
 };
 
-// @route  GET /api/auth/me
-// @access Private (requires valid JWT)
 const getMe = async (req, res) => {
-    // req.user is attached by the `protect` middleware
     return res.status(200).json(req.user);
 };
 
