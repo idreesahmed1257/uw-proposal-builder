@@ -1,4 +1,5 @@
 const PortfolioProject = require('../models/PortfolioProject');
+const { syncProjectToPinecone, deleteProjectFromPinecone } = require('../services/pineconeService');
 
 // @desc    Get all portfolio projects
 // @route   GET /api/portfolio
@@ -29,6 +30,17 @@ const createProject = async (req, res) => {
         });
 
         const createdProject = await project.save();
+
+        // Sync to Pinecone right away — failures here shouldn't block the save,
+        // but we do log and reflect the failure in embeddingStatus.
+        try {
+            await syncProjectToPinecone(createdProject);
+        } catch (syncErr) {
+            console.error('Pinecone sync failed on create:', syncErr.message);
+            createdProject.embeddingStatus = 'failed';
+            await createdProject.save();
+        }
+
         res.status(201).json(createdProject);
     } catch (error) {
         res.status(400).json({ message: 'Error creating project', error: error.message });
@@ -53,6 +65,15 @@ const updateProject = async (req, res) => {
             project.industry = industry || project.industry;
 
             const updatedProject = await project.save();
+
+            try {
+                await syncProjectToPinecone(updatedProject);
+            } catch (syncErr) {
+                console.error('Pinecone sync failed on update:', syncErr.message);
+                updatedProject.embeddingStatus = 'failed';
+                await updatedProject.save();
+            }
+
             res.json(updatedProject);
         } else {
             res.status(404).json({ message: 'Project not found' });
@@ -70,6 +91,13 @@ const deleteProject = async (req, res) => {
         const project = await PortfolioProject.findById(req.params.id);
 
         if (project) {
+            try {
+                await deleteProjectFromPinecone(project);
+            } catch (syncErr) {
+                console.error('Pinecone cleanup failed on delete:', syncErr.message);
+                // Continue with the Mongo delete regardless — don't block on this
+            }
+
             await project.deleteOne();
             res.json({ message: 'Project removed' });
         } else {
