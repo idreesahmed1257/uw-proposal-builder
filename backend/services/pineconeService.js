@@ -41,7 +41,7 @@ async function syncProjectToPinecone(project) {
   if (oldChunkCount > 0) {
     const oldIds = Array.from({ length: oldChunkCount }, (_, i) => `${project._id}-chunk-${i}`);
     try {
-      await index.namespace(NAMESPACE).deleteMany(oldIds);
+      await index.namespace(NAMESPACE).deleteMany({ ids: oldIds });
     } catch (err) {
       console.error(`Warning: failed to delete old chunks for ${project._id}:`, err.message);
     }
@@ -76,7 +76,7 @@ async function deleteProjectFromPinecone(project) {
   if (chunkCount === 0) return;
 
   const ids = Array.from({ length: chunkCount }, (_, i) => `${project._id}-chunk-${i}`);
-  await index.namespace(NAMESPACE).deleteMany(ids);
+  await index.namespace(NAMESPACE).deleteMany({ ids });
 }
 
 module.exports = { syncProjectToPinecone, deleteProjectFromPinecone };
