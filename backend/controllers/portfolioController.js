@@ -95,7 +95,7 @@ const deleteProject = async (req, res) => {
                 await deleteProjectFromPinecone(project);
             } catch (syncErr) {
                 console.error('Pinecone cleanup failed on delete:', syncErr.message);
-                // Continue with the Mongo delete regardless — don't block on this
+                return res.status(500).json({ message: 'Error deleting project from vector database', error: syncErr.message });
             }
 
             await project.deleteOne();

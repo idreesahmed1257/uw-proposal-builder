@@ -43,7 +43,8 @@ async function syncProjectToPinecone(project) {
     try {
       await index.namespace(NAMESPACE).deleteMany({ ids: oldIds });
     } catch (err) {
-      console.error(`Warning: failed to delete old chunks for ${project._id}:`, err.message);
+      console.error(`Error: failed to delete old chunks for ${project._id}:`, err.message);
+      throw new Error(`Failed to clean up old Pinecone chunks: ${err.message}`);
     }
   }
 
