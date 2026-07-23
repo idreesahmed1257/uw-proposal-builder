@@ -19,8 +19,8 @@ const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
  * @param {object} options
  * @param {number} options.topK - how many chunks to return (default 5)
  * @param {string} options.industry - optional exact-match filter, e.g. "HR Tech / SaaS"
- * @param {string[]} options.tags - optional filter: chunk must have at least one of these tags
- * @returns {Promise<Array<{id, score, title, industry, tags, chunkIndex, text}>>}
+ * @param {string[]} options.tags - optional filter: project must have at least one of these tags
+ * @returns {Promise<Array<{id, score, title, industry, tags, text}>>}
  */
 async function searchPortfolio(query, options = {}) {
   const { topK = 5, industry, tags } = options;
@@ -40,7 +40,7 @@ async function searchPortfolio(query, options = {}) {
       inputs: { text: query },
       topK,
     },
-    fields: ['title', 'industry', 'tags', 'chunkIndex', 'text', 'portfolioProjectId'],
+    fields: ['title', 'industry', 'tags', 'text', 'portfolioProjectId'],
   };
 
   if (Object.keys(filter).length > 0) {
@@ -57,9 +57,8 @@ async function searchPortfolio(query, options = {}) {
     title: hit.fields?.title,
     industry: hit.fields?.industry,
     tags: hit.fields?.tags,
-    chunkIndex: hit.fields?.chunkIndex,
     text: hit.fields?.text,
-    portfolioProjectId: hit.fields?.portfolioProjectId,
+    portfolioProjectId: hit.fields?.portfolioProjectId || hit._id,
   }));
 }
 

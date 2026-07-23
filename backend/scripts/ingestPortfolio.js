@@ -31,7 +31,7 @@ async function runIngestion() {
 
   for (const project of projects) {
     try {
-      project.embeddingStatus = 'chunked';
+      project.embeddingStatus = 'pending';
       await ingestProject(project);
     } catch (err) {
       project.embeddingStatus = 'failed';

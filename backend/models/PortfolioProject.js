@@ -33,12 +33,8 @@ const portfolioProjectSchema = new mongoose.Schema(
 
     embeddingStatus: {
       type: String,
-      enum: ['pending', 'chunked', 'embedded', 'failed'],
+      enum: ['pending', 'embedded', 'failed'],
       default: 'pending',
-    },
-    chunkCount: {
-      type: Number,
-      default: 0,
     },
   },
   { timestamps: true }

@@ -109,7 +109,7 @@ async function runTests() {
       }
 
       results.forEach((r, i) => {
-        console.log(`\\n#${i + 1} — score: ${r.score.toFixed(4)} — ${r.title} (chunk ${r.chunkIndex})`);
+        console.log(`\\n#${i + 1} — score: ${r.score.toFixed(4)} — ${r.title}`);
         console.log(`   industry: ${r.industry || 'n/a'} | tags: ${(r.tags || []).join(', ') || 'n/a'}`);
         console.log(`   text: ${r.text.slice(0, 200).replace(/\\n/g, ' ')}...`);
       });
