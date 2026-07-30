@@ -6,6 +6,7 @@
 //   - scripts/ingestPortfolio.js (one-time/backfill sync for existing data)
 
 const { Pinecone } = require('@pinecone-database/pinecone');
+const { normalizeTags } = require('./tagNormalization');
 
 const PINECONE_INDEX = process.env.PINECONE_INDEX;
 const NAMESPACE = 'portfolio-projects';
@@ -30,6 +31,7 @@ function buildSourceText(project) {
 async function syncProjectToPinecone(project) {
   const index = pc.index(PINECONE_INDEX);
   const sourceText = buildSourceText(project);
+  const rawTags = project.tags || [];
 
   await index.namespace(NAMESPACE).upsertRecords({
     records: [{
@@ -37,7 +39,13 @@ async function syncProjectToPinecone(project) {
       text: sourceText,
       title: project.title,
       industry: project.industry || '',
-      tags: project.tags || [],
+      tags: rawTags,
+      // Canonical form of `tags`, computed via the same TAG_ALIASES map used
+      // on extracted job-description stacks at query time. Keyword-overlap
+      // scoring in retrievalService.js compares against THIS field, not the
+      // free-text `tags` field, so "React", "React.js", "ReactJS" all match
+      // a query stack of "react" consistently.
+      normalizedTags: normalizeTags(rawTags),
     }],
   });
 

@@ -1,8 +1,13 @@
 // backend/scripts/testRetrieval.js
 //
-// QA script for Week 4 — runs a set of real sample queries against the
-// retrieval layer and prints the results, so we can eyeball retrieval
-// quality (are the right project chunks coming back?).
+// QA script — runs sample queries against the hybrid retrieval layer and
+// prints results plus the extracted query profile, so you can eyeball both
+// retrieval quality AND what query-understanding pulled out.
+//
+// Also prints raw semanticScore (not min-max normalized — see
+// retrievalService.js for why) and the lowConfidence flag, so you can use
+// this output to actually calibrate LOW_CONFIDENCE_THRESHOLD against your
+// real data instead of guessing.
 //
 // Run with: node scripts/testRetrieval.js
 
@@ -15,8 +20,6 @@ const testQueries = [
   { query: 'Projects involving real-time data or IoT' },
   { query: 'Experience with payment integrations like Stripe' },
   { query: 'Multi-tenant SaaS architecture experience' },
-  // Example with a metadata filter — swap "industry" to match a real
-  // value from your PortfolioProject data once you've tagged more projects.
   { query: 'HR platform work', options: { industry: 'HR Tech / SaaS' } },
 ];
 
@@ -28,7 +31,10 @@ async function runTests() {
     console.log('============================================');
 
     try {
-      const results = await searchPortfolio(query, options);
+      const { results, queryProfile, lowConfidence } = await searchPortfolio(query, options);
+
+      console.log('Query profile:', JSON.stringify(queryProfile, null, 2));
+      console.log(`lowConfidence: ${lowConfidence}`);
 
       if (results.length === 0) {
         console.log('No results returned.');
@@ -36,7 +42,11 @@ async function runTests() {
       }
 
       results.forEach((r, i) => {
-        console.log(`\n#${i + 1} — score: ${r.score.toFixed(4)} — ${r.title}`);
+        console.log(
+          `\n#${i + 1} — final score: ${r.score.toFixed(4)} (raw semantic: ${r.semanticScore.toFixed(
+            4
+          )}, keyword: ${r.keywordScore.toFixed(2)}) — ${r.title}`
+        );
         console.log(`   industry: ${r.industry || 'n/a'} | tags: ${(r.tags || []).join(', ') || 'n/a'}`);
         console.log(`   text: ${r.text.slice(0, 150).replace(/\n/g, ' ')}...`);
       });
