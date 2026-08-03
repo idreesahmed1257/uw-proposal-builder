@@ -96,12 +96,18 @@ const testQueries = [
 
 async function runTests() {
   for (const { name, query } of testQueries) {
-    console.log('\\n============================================');
+    console.log('\n============================================');
     console.log(`Testing: ${name}`);
     console.log('============================================');
 
     try {
-      const results = await searchPortfolio(query);
+      // searchPortfolio now returns { results, queryProfile, lowConfidence }
+      // instead of a bare array — destructure instead of using the return
+      // value directly.
+      const { results, queryProfile, lowConfidence } = await searchPortfolio(query);
+
+      console.log('Query profile:', JSON.stringify(queryProfile, null, 2));
+      console.log(`lowConfidence: ${lowConfidence}`);
 
       if (results.length === 0) {
         console.log('No results returned.');
@@ -109,9 +115,13 @@ async function runTests() {
       }
 
       results.forEach((r, i) => {
-        console.log(`\\n#${i + 1} — score: ${r.score.toFixed(4)} — ${r.title}`);
+        console.log(
+          `\n#${i + 1} — final score: ${r.score.toFixed(4)} (raw semantic: ${r.semanticScore.toFixed(
+            4
+          )}, keyword: ${r.keywordScore.toFixed(2)}) — ${r.title}`
+        );
         console.log(`   industry: ${r.industry || 'n/a'} | tags: ${(r.tags || []).join(', ') || 'n/a'}`);
-        console.log(`   text: ${r.text.slice(0, 200).replace(/\\n/g, ' ')}...`);
+        console.log(`   text: ${(r.text || '').slice(0, 200).replace(/\n/g, ' ')}...`);
       });
     } catch (err) {
       console.error(`Query failed: ${err.message}`);
