@@ -17,7 +17,7 @@ const portfolioProjects = [
             'JWT authentication and role-based access control',
             'Real-time staff portal and compliance audit logs',
         ],
-        tags: ['SaaS', 'Multi-tenant', 'Electron', 'Biometrics', 'MongoDB', 'React'],
+        tags: ['SaaS', 'Multi-tenant', 'Electron', 'Biometrics', 'MongoDB', 'React','Kiosk', 'Hardware','RBAC'],
         industry: 'Enterprise / Security & Facilities',
     },
     {
@@ -32,7 +32,7 @@ const portfolioProjects = [
             'Conversational onboarding and document handling',
             'Policy intelligence engine',
         ],
-        tags: ['AI', 'RAG', 'GPT-4', 'Voice', 'HR Tech', 'Fastify', 'Multi-tenant'],
+        tags: ['AI', 'RAG', 'GPT-4', 'Voice', 'HR', 'Fastify', 'Multi-tenant'],
         industry: 'HR Tech / SaaS',
     },
     {
@@ -62,7 +62,7 @@ const portfolioProjects = [
             'Fastify backend with MongoDB',
             'Full ground-up rebuild after vendor handover',
         ],
-        tags: ['Electron', 'RFID', 'Desktop App', 'Fastify', 'MongoDB', 'Nonprofit'],
+        tags: ['Electron', 'RFID', 'Desktop App', 'Fastify', 'MongoDB', 'Nonprofit','Hardware','RBAC'],
         industry: 'Nonprofit / Community Welfare',
     },
     {
@@ -77,7 +77,7 @@ const portfolioProjects = [
             'PCI DSS and GDPR compliance implementation',
             'Real-time admin dashboard with donor analytics',
         ],
-        tags: ['React Native', 'Stripe', 'Payments', 'Compliance', 'Nonprofit'],
+        tags: ['React Native', 'Stripe', 'Payments', 'Compliance', 'Nonprofit','Mobile','Charity'],
         industry: 'Charity / Nonprofit',
     },
     {
@@ -107,7 +107,7 @@ const portfolioProjects = [
             'Mascot-led recommendation assistant',
             'City-based location discovery system',
         ],
-        tags: ['Socket.IO', 'Xano', 'Social', 'Marketplace', 'AI Assistant'],
+        tags: ['Socket.IO', 'Xano', 'Social', 'Marketplace', 'AI Assistant','Mobile'],
         industry: 'Social / Consumer',
     },
     {
@@ -122,7 +122,7 @@ const portfolioProjects = [
             'Zero Trust authentication microservice',
             'Blockchain Proof of Concept integration',
         ],
-        tags: ['Microservices', 'GCP', 'MQTT', 'Kafka', 'Zero Trust', 'IoT', 'DevOps'],
+        tags: ['Microservices', 'GCP', 'MQTT', 'Kafka', 'Zero Trust', 'IoT', 'DevOps','Monitoring','Real-Time'],
         industry: 'IoT / Enterprise Infrastructure',
     },
     // Add more portfolio projects here as objects in this same shape.
