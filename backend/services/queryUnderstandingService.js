@@ -2,9 +2,9 @@
 
 const Groq = require('groq-sdk');
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY2 });
 
-const EXTRACTION_MODEL = process.env.GROQ_EXTRACTION_MODEL || 'llama-3.1-8b-instant';
+const EXTRACTION_MODEL = process.env.GROQ_EXTRACTION_MODEL;
 const IS_REASONING_MODEL = EXTRACTION_MODEL.includes('gpt-oss');
 
 const SYSTEM_PROMPT = `You are a query-understanding component in a retrieval pipeline. You will be shown one or more messages from an Upwork job conversation (job description text, and possibly follow-up questions/answers).
