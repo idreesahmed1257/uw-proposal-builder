@@ -29,3 +29,8 @@ export const sendMessage = async (chatId, { role, content }) => {
   const { data } = await api.post(`/chats/${chatId}/messages`, { role, content });
   return data;
 };
+
+export const generateProposal = async (chatId, content) => {
+  const { data } = await api.post(`/chats/${chatId}/generate`, { content });
+  return data;
+};

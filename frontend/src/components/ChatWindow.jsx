@@ -3,14 +3,14 @@ import Composer from './Composer';
 import logo from '../assets/logo.png';
 import './ChatWindow.css';
 
-export default function ChatWindow({ activeChat, messages, onSend, userName }) {
+export default function ChatWindow({ activeChat, messages, onSend, userName, generationMeta, isGenerating, error }) {
   const listRef = useRef(null);
 
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isGenerating]);
 
   const firstName = userName?.split(' ')[0];
 
@@ -39,12 +39,27 @@ export default function ChatWindow({ activeChat, messages, onSend, userName }) {
               <div className="message-bubble">{msg.content}</div>
             </div>
           ))}
+
+          {isGenerating && (
+            <div className="message-row assistant message-row-pending">
+              <div className="message-avatar">D</div>
+              <div className="message-bubble message-bubble-pending">Drafting proposal…</div>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="composer-wrap">
         <div className="composer-wrap-inner">
-          <Composer onSend={onSend} placeholder="Message DevNauts…" />
+          {error && <div className="chat-error-banner">{error}</div>}
+
+          {generationMeta?.lowConfidencePortfolio && (
+            <div className="chat-confidence-note">
+              No direct portfolio match — experience framed as transferable.
+            </div>
+          )}
+
+          <Composer onSend={onSend} placeholder="Message DevNauts…" disabled={isGenerating} />
           <div className="composer-hint">DevNauts proposal builder — internal tool, drafts may need review.</div>
         </div>
       </div>

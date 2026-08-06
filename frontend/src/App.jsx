@@ -4,7 +4,7 @@ import AuthPage from './pages/AuthPage';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
 import AdminPage from './pages/AdminPage';
-import { fetchChats, createChat, fetchChat, deleteChat, sendMessage } from './api/chats';
+import { fetchChats, createChat, fetchChat, deleteChat, generateProposal } from './api/chats';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function MainApp() {
@@ -12,6 +12,9 @@ function MainApp() {
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [generationMeta, setGenerationMeta] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [sendError, setSendError] = useState('');
   const navigate = useNavigate();
 
   const loadChats = async () => {
@@ -25,6 +28,8 @@ function MainApp() {
 
   const openChat = async (chatId) => {
     setActiveChatId(chatId);
+    setGenerationMeta(null);
+    setSendError('');
     const { messages } = await fetchChat(chatId);
     setMessages(messages);
     navigate('/');
@@ -35,6 +40,8 @@ function MainApp() {
     // sends a first message, so we don't litter empty "New Chat" entries.
     setActiveChatId(null);
     setMessages([]);
+    setGenerationMeta(null);
+    setSendError('');
     navigate('/');
   };
 
@@ -43,28 +50,46 @@ function MainApp() {
     if (chatId === activeChatId) {
       setActiveChatId(null);
       setMessages([]);
+      setGenerationMeta(null);
+      setSendError('');
     }
     loadChats();
   };
 
   const handleSend = async (content) => {
+    if (isGenerating) return;
+
     let chatId = activeChatId;
+    setSendError('');
+    setGenerationMeta(null);
+    setIsGenerating(true);
 
-    // Lazily create the chat on first message, titled from the message itself
-    if (!chatId) {
-      const title = content.length > 40 ? `${content.slice(0, 40)}…` : content;
-      const chat = await createChat({ title });
-      chatId = chat._id;
-      setActiveChatId(chatId);
+    try {
+      // Lazily create the chat on first message, titled from the message itself
+      if (!chatId) {
+        const title = content.length > 40 ? `${content.slice(0, 40)}…` : content;
+        const chat = await createChat({ title });
+        chatId = chat._id;
+        setActiveChatId(chatId);
+      }
+
+      const response = await generateProposal(chatId, content);
+      setGenerationMeta(response.meta || null);
+
+      const { messages: refreshedMessages } = await fetchChat(chatId);
+      setMessages(refreshedMessages);
+      loadChats(); // resync sidebar order/titles
+    } catch (error) {
+      console.error('Failed to generate proposal', error);
+      setSendError(error.response?.data?.message || 'Failed to generate proposal.');
+
+      if (chatId) {
+        const { messages: refreshedMessages } = await fetchChat(chatId);
+        setMessages(refreshedMessages);
+      }
+    } finally {
+      setIsGenerating(false);
     }
-
-    const message = await sendMessage(chatId, { role: 'user', content });
-    setMessages((prev) => [...prev, message]);
-    loadChats(); // resync sidebar order/titles
-
-    // NOTE: assistant reply wiring happens once the generation endpoint
-    // (RAG retrieval + LLM call) is built — this just persists the user's
-    // message for now.
   };
 
   return (
@@ -86,6 +111,9 @@ function MainApp() {
                 messages={messages}
                 onSend={handleSend}
                 userName={user?.name}
+                generationMeta={generationMeta}
+                isGenerating={isGenerating}
+                error={sendError}
               />
             }
           />

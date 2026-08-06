@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-export default function Composer({ onSend, placeholder }) {
+export default function Composer({ onSend, placeholder, disabled = false }) {
   const [value, setValue] = useState('');
   const textareaRef = useRef(null);
 
@@ -14,6 +14,7 @@ export default function Composer({ onSend, placeholder }) {
   };
 
   const handleSubmit = () => {
+    if (disabled) return;
     const trimmed = value.trim();
     if (!trimmed) return;
     onSend(trimmed);
@@ -37,11 +38,12 @@ export default function Composer({ onSend, placeholder }) {
         placeholder={placeholder || 'Message DevNauts…'}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        disabled={disabled}
       />
       <button
         className="composer-send"
         onClick={handleSubmit}
-        disabled={!value.trim()}
+        disabled={disabled || !value.trim()}
         aria-label="Send message"
       >
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">

@@ -80,6 +80,14 @@
   color: #06070a;
 }
 
+.message-row-pending .message-bubble {
+  opacity: 0.8;
+}
+
+.message-bubble-pending {
+  font-style: italic;
+}
+
 .message-bubble {
   max-width: 70%;
   padding: 11px 15px;
@@ -162,6 +170,27 @@
 .composer-wrap-inner {
   max-width: 720px;
   margin: 0 auto;
+}
+
+.chat-error-banner,
+.chat-confidence-note {
+  margin-bottom: 10px;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.chat-error-banner {
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  background: rgba(248, 113, 113, 0.1);
+  color: #fecaca;
+}
+
+.chat-confidence-note {
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--text);
 }
 
 .composer-hint {
