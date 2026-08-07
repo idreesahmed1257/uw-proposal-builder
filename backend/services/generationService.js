@@ -226,7 +226,14 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
 8. NATURAL PROSE: Never reproduce internal labels like "Project 1:",
    "Project 2:", or "Role:" from the portfolio context. Reference projects
    naturally in prose — e.g. "On Drive Direct, I built..." — not as a
-   numbered/labeled list item.`;
+   numbered/labeled list item.
+   9. NO REDUNDANT QUESTIONS: Before writing the closing question, check whether
+   the job description in ## THE JOB already answers it. Never ask for
+   information (volume, scale, team size, timeline, budget, tech stack,
+   etc.) that is already explicitly stated in the job description. If the
+   JD already covers the obvious scoping questions, ask something more
+   specific instead — an edge case, a technical decision, or a genuine
+   ambiguity the JD doesn't resolve.`;
    
 }
 
