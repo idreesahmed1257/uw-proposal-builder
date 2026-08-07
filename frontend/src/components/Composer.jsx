@@ -25,7 +25,9 @@ export default function Composer({ onSend, placeholder, disabled = false }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit();
+      if (!disabled) {
+        handleSubmit();
+      }
     }
   };
 

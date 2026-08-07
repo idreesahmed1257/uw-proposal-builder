@@ -1,28 +1,74 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Composer from './Composer';
 import logo from '../assets/logo.png';
 import './ChatWindow.css';
 
-export default function ChatWindow({ activeChat, messages, onSend, userName, generationMeta, isGenerating, error }) {
-  const listRef = useRef(null);
+function ThinkingIndicator() {
+  const [textIndex, setTextIndex] = useState(0);
+  const statusTexts = ['Thinking...', 'Reviewing resources...', 'Generating response...'];
 
   useEffect(() => {
-    if (listRef.current) {
+    const interval = setInterval(() => {
+      setTextIndex((prev) => (prev + 1) % statusTexts.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [statusTexts.length]);
+
+  return (
+    <div className="thinking-container">
+      <div className="typing-dots">
+        <span className="typing-dot" />
+        <span className="typing-dot" />
+        <span className="typing-dot" />
+      </div>
+      <span className="thinking-text">{statusTexts[textIndex]}</span>
+    </div>
+  );
+}
+
+export default function ChatWindow({ activeChat, messages, onSend, userName, generationMeta, isGenerating, error }) {
+  const listRef = useRef(null);
+  const isUserScrolledUp = useRef(false);
+  const prevMessagesLength = useRef(messages.length);
+
+  const handleScroll = () => {
+    if (!listRef.current) return;
+    const { scrollHeight, scrollTop, clientHeight } = listRef.current;
+    // User is considered scrolled up if they are more than 100px away from the bottom
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+    isUserScrolledUp.current = distanceFromBottom > 100;
+  };
+
+  useEffect(() => {
+    if (!listRef.current) return;
+
+    const currentLength = messages.length;
+    const lastMsg = messages[currentLength - 1];
+
+    // If a new user message was appended, force auto-scroll to bottom
+    if (currentLength > prevMessagesLength.current && lastMsg?.role === 'user') {
+      isUserScrolledUp.current = false;
+    }
+
+    // Auto-scroll if the user hasn't manually scrolled up
+    if (!isUserScrolledUp.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
+
+    prevMessagesLength.current = currentLength;
   }, [messages, isGenerating]);
 
   const firstName = userName?.split(' ')[0];
 
-  // No chat selected yet, or a chat with no messages: show centered greeting + composer
-  if (!activeChat || messages.length === 0) {
+  // No messages in chat: show centered greeting + composer
+  if (messages.length === 0) {
     return (
       <div className="chat-window">
         <div className="chat-empty">
           <img src={logo} alt="" />
           <h2>{firstName ? `What are we building, ${firstName}?` : 'What are we building today?'}</h2>
           <div className="chat-empty-composer">
-            <Composer onSend={onSend} placeholder="Paste a client brief to start a proposal…" />
+            <Composer onSend={onSend} placeholder="Paste a client brief to start a proposal…" disabled={isGenerating} />
           </div>
         </div>
       </div>
@@ -31,21 +77,19 @@ export default function ChatWindow({ activeChat, messages, onSend, userName, gen
 
   return (
     <div className="chat-window">
-      <div className="message-list" ref={listRef}>
+      <div className="message-list" ref={listRef} onScroll={handleScroll}>
         <div className="message-list-inner">
           {messages.map((msg) => (
-            <div key={msg._id} className={`message-row ${msg.role}`}>
+            <div
+              key={msg._id}
+              className={`message-row ${msg.role} ${msg.isPlaceholder ? 'message-row-pending' : ''}`}
+            >
               {msg.role === 'assistant' && <div className="message-avatar">D</div>}
-              <div className="message-bubble">{msg.content}</div>
+              <div className={`message-bubble ${msg.isError ? 'message-bubble-error' : ''}`}>
+                {msg.isPlaceholder ? <ThinkingIndicator /> : msg.content}
+              </div>
             </div>
           ))}
-
-          {isGenerating && (
-            <div className="message-row assistant message-row-pending">
-              <div className="message-avatar">D</div>
-              <div className="message-bubble message-bubble-pending">Drafting proposal…</div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -66,3 +110,4 @@ export default function ChatWindow({ activeChat, messages, onSend, userName, gen
     </div>
   );
 }
+

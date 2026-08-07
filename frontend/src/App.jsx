@@ -57,12 +57,32 @@ function MainApp() {
   };
 
   const handleSend = async (content) => {
-    if (isGenerating) return;
+    if (isGenerating || !content?.trim()) return;
 
     let chatId = activeChatId;
     setSendError('');
     setGenerationMeta(null);
     setIsGenerating(true);
+
+    const tempUserId = `temp-user-${Date.now()}`;
+    const tempAssistantId = `temp-assistant-${Date.now()}`;
+
+    const userMessage = {
+      _id: tempUserId,
+      role: 'user',
+      content: content.trim(),
+      createdAt: new Date().toISOString(),
+    };
+
+    const assistantPlaceholder = {
+      _id: tempAssistantId,
+      role: 'assistant',
+      isPlaceholder: true,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Immediately show user message + assistant thinking placeholder
+    setMessages((prev) => [...prev, userMessage, assistantPlaceholder]);
 
     try {
       // Lazily create the chat on first message, titled from the message itself
@@ -76,16 +96,45 @@ function MainApp() {
       const response = await generateProposal(chatId, content);
       setGenerationMeta(response.meta || null);
 
+      // Replace placeholder with actual assistant response
+      if (response && response.message) {
+        setMessages((prev) =>
+          prev.map((msg) => (msg._id === tempAssistantId ? response.message : msg))
+        );
+      }
+
+      // Sync with database to get canonical IDs
       const { messages: refreshedMessages } = await fetchChat(chatId);
       setMessages(refreshedMessages);
       loadChats(); // resync sidebar order/titles
     } catch (error) {
       console.error('Failed to generate proposal', error);
-      setSendError(error.response?.data?.message || 'Failed to generate proposal.');
+      const errorText = 'Sorry, something went wrong. Please try again.';
+      setSendError(error.response?.data?.message || errorText);
+
+      // Replace placeholder with error state assistant message
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg._id === tempAssistantId
+            ? {
+                _id: tempAssistantId,
+                role: 'assistant',
+                content: errorText,
+                isError: true,
+              }
+            : msg
+        )
+      );
 
       if (chatId) {
-        const { messages: refreshedMessages } = await fetchChat(chatId);
-        setMessages(refreshedMessages);
+        try {
+          const { messages: refreshedMessages } = await fetchChat(chatId);
+          if (refreshedMessages && refreshedMessages.length > 0) {
+            setMessages(refreshedMessages);
+          }
+        } catch (e) {
+          // Keep local optimistic state with error bubble if fetch fails
+        }
       }
     } finally {
       setIsGenerating(false);
