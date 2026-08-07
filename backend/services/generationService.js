@@ -192,6 +192,12 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
    the job description in ## THE JOB only. NEVER pull a number, metric, or
    detail from the portfolio projects or tone reference to use as the opener
    — those sections are for later in the proposal, not the opening hook.
+   The number or detail used in the opener MUST be copied EXACTLY as it
+   appears in ## THE JOB — never round, estimate, combine, guess, or alter
+   any number from the job description. If you are not certain of an exact
+   figure stated in the job, use a non-numeric detail instead (a specific
+   constraint, requirement, or phrase from the JD) rather than guessing
+   or approximating a number.
 
 3. NO INVENTED FACTS: Never reference a project, metric, technology, or client
    name that does not appear in the provided portfolio context. Do not invent
