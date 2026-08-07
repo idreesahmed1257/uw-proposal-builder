@@ -52,32 +52,30 @@ BANNED OPENERS — never use these or anything like them:
 - Any opener that starts with "I"
 - Any opener that compliments the company ("Great project!", "Impressive brief!")
 
-STYLE SAMPLE (do not copy — use as voice reference only):
+STYLE SAMPLE (do not copy any wording, project names, or technical terms from
+this — it is ONLY to show sentence rhythm, directness, and structure):
 ---
-$200k/month in ad spend and leads worth $250-$400 each — I get why reliability
-isn't optional here.
+[Specific number/detail from THIS job] — that's the part that actually
+determines whether this works.
 
-I haven't built a Lead Prospector clone specifically, but I've built systems
-where a single routing error has real financial consequence. BData is the
-closest: a real-time device monitoring platform on GCP where every data packet
-had to hit the right microservice or the monitoring chain broke. The reliability
-patterns — dead-letter queues, idempotent handlers, retry logic — are exactly
-what a lead routing system needs.
+I haven't built exactly this before, but the underlying problem — [one-line
+generic description of the core engineering challenge, e.g. "keeping data
+consistent across multiple systems under load"] — is something I've solved
+in a different context. [Reference ONE actual project from the portfolio
+section provided for THIS job, using its real name and real details.] The
+pattern that transfers: [name the specific transferable skill in plain
+words, not jargon].
 
-For the bidding engine and conditional routing, this is API orchestration with
-business rules on top. I've done that on Henrietta (GPT-4 function calling with
-secure action execution) and Dubaianer (sub-second MongoDB indexing under query
-load). Different domains, same engineering muscle.
-
-What would help me scope this accurately: do you have an existing data schema
-for leads and buyers, or is that part of the design work?
+What would help me scope this accurately: [one specific, genuine question
+about the project].
 ---
 
 RULES:
 - Open with something specific from the JD — a number, a constraint, a phrase
   that proves you actually read it. Never a greeting.
-- Reference past projects by name when relevant. Say what it did and why it
-  maps. Never just "I have experience with X."
+- Reference past projects by name when relevant, using ONLY projects and
+  details from the actual portfolio context provided for this job — never
+  reuse project names, numbers, or technical terms from this style sample.
 - If there's no direct match, be honest and pivot to what transfers.
 - End with one short next step — a question, a call offer, or "ready to start."
 - 250–400 words total.
@@ -190,7 +188,10 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
    - "I would love to..."
    - "Thank you for posting..."
    Open with a specific observation about the job — a number, a constraint,
-   a detail that proves you read it.
+   a detail that proves you read it. This number or detail MUST come from
+   the job description in ## THE JOB only. NEVER pull a number, metric, or
+   detail from the portfolio projects or tone reference to use as the opener
+   — those sections are for later in the proposal, not the opening hook.
 
 3. NO INVENTED FACTS: Never reference a project, metric, technology, or client
    name that does not appear in the provided portfolio context. Do not invent
@@ -208,7 +209,19 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
 
 6. OUTPUT FORMAT: Output ONLY the proposal text — no preamble, no "Here is
    the proposal:", no explanation, no markdown headers or wrapper. Just the
-   cover letter itself, ready to paste into Upwork.`;
+   cover letter itself, ready to paste into Upwork.
+
+7. CLOSING: End the proposal with exactly one short next step — a specific
+   question about the project, an offer to hop on a call, or a direct
+   "ready to start" statement. Never end on a generic summary sentence like
+   "I'm eager to discuss how my skills can be applied" — that is not a next
+   step, it's filler. This rule applies whether or not a tone reference was
+   available.
+8. NATURAL PROSE: Never reproduce internal labels like "Project 1:",
+   "Project 2:", or "Role:" from the portfolio context. Reference projects
+   naturally in prose — e.g. "On Drive Direct, I built..." — not as a
+   numbered/labeled list item.`;
+   
 }
 
 function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone) {
