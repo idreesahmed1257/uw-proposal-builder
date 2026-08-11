@@ -265,14 +265,16 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
 
 12. APPLICANT PROFILE & REPOSITORY CITATIONS: If the job description, client instructions,
     or prompt asks for a GitHub link, repository, portfolio website, personal link, live demo,
-    or code samples (or mentions "portfolio/github links"), cite the exact relevant URL provided in ## APPLICANT PROFILE & LINKS (for example: "You can inspect our GitHub repositories at https://github.com/..." or "See our agency portfolio at https://..."). If a specific profile link is listed as "None provided", state clearly that portfolio/GitHub links can be provided upon request — do NOT invent or guess a fake URL.`;
+    or code samples (or mentions "portfolio/github links"), cite the exact relevant URL provided in ## APPLICANT PROFILE & LINKS (for example: "You can inspect our GitHub repositories at https://github.com/..." or "See our agency portfolio at https://..."). If a specific profile link is listed as "None provided", state clearly that portfolio/GitHub links can be provided upon request — do NOT invent or guess a fake URL.
+
+13. NO EM-DASH (—) BETWEEN WORDS: NEVER use the em-dash character ("—") or double dash ("--") between words or clauses in sentences (for example: NEVER write "the underlying problem — keeping data consistent" or "On Drive Direct — I built"). Use standard punctuation such as commas, colons, periods, or parentheses instead.`;
 }
 
 function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone, userProfile, rawInput) {
   const hasLinkRequest = /github|portfolio|repository|repositories|code sample|live link|website link|sample project/i.test(rawInput || '');
 
   let taskDirectives = `Write a cover letter for the job above using the 5-step structure (Hook -> Project & Problem Solving -> How You Have Solved It Before -> Portfolio & 2 Similar Projects -> Engaging CTA).
-Ensure the tone of the retrieved tone reference plays a major role — matching its exact voice, level of directness, confidence, personality, and style of referencing past work.`;
+Ensure the tone of the retrieved tone reference plays a major role — matching its exact voice, level of directness, confidence, personality, and style of referencing past work. Do NOT use the em-dash (—) symbol between words anywhere in the text.`;
 
   if (hasLinkRequest) {
     const gh = userProfile?.githubUrl;
@@ -350,7 +352,12 @@ async function generateProposal({
     ],
   });
 
-  const proposal = (response.choices?.[0]?.message?.content || '').trim();
+  let proposal = (response.choices?.[0]?.message?.content || '').trim();
+
+  // Safety fallback to strip em-dashes between words if any slipped past prompt instructions
+  proposal = proposal
+    .replace(/\s*—\s*/g, ', ')
+    .replace(/\s*--\s*/g, ', ');
 
   return {
     proposal,
