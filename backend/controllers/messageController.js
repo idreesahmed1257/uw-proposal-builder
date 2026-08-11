@@ -123,6 +123,13 @@ const generateResponse = async (req, res) => {
 
         const toneResult = toneResults[0] || null;
 
+        const userProfile = {
+            name: req.user.name,
+            githubUrl: req.user.githubUrl || '',
+            portfolioUrl: req.user.portfolioUrl || '',
+            linkedinUrl: req.user.linkedinUrl || '',
+        };
+
         // Step 4: generate the proposal
         const { proposal, usage } = await generateProposal({
             queryProfile,
@@ -130,6 +137,8 @@ const generateResponse = async (req, res) => {
             lowConfidencePortfolio,
             toneResult,
             lowConfidenceTone,
+            userProfile,
+            rawInput: content.trim(),
         });
 
         // ── Save assistant response with sources ──────────────────────────────

@@ -48,6 +48,23 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateProfile = async (profileData) => {
+    setLoading(true);
+    setError('');
+    try {
+      const { data } = await api.put('/auth/profile', profileData);
+      setUser(data);
+      localStorage.setItem('devnauts_user', JSON.stringify(data));
+      return { success: true, user: data };
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Failed to update profile.';
+      setError(msg);
+      return { success: false, error: msg };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('devnauts_token');
     localStorage.removeItem('devnauts_user');
@@ -55,7 +72,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, register, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, error, register, login, updateProfile, logout }}>
       {children}
     </AuthContext.Provider>
   );

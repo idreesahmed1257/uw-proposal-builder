@@ -26,6 +26,21 @@ const userSchema = new mongoose.Schema(
       enum: ['member', 'admin'],
       default: 'member',
     },
+    githubUrl: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    portfolioUrl: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    linkedinUrl: {
+      type: String,
+      default: '',
+      trim: true,
+    },
   },
   { timestamps: true }
 );

@@ -62,7 +62,15 @@ We have an existing HR SaaS platform and need a senior developer to:
 Stack: Node.js, Fastify, MongoDB. OpenAI integration preferred.
 `;
 
+const jdProfileLinks = `
+Analytics Dashboard Developer Needed
+
+We are building a real-time analytics dashboard with React, Node.js, and MongoDB.
+Kindly mention your portfolio/github links in your application so we can review your past work repositories and live projects.
+`;
+
 const testCases = [
+  { name: 'Github/Portfolio Citation Test (explicit link request)', jd: jdProfileLinks },
   { name: 'Lead Distribution (no portfolio match expected)', jd: jdLeadDistribution },
   { name: 'EdTech MVP (partial portfolio match expected)', jd: jdEdTech },
   { name: 'AI HR Platform (strong portfolio match expected — Henrietta)', jd: jdHR },
@@ -101,6 +109,12 @@ async function runTest({ name, jd }) {
     lowConfidencePortfolio,
     toneResult,
     lowConfidenceTone,
+    userProfile: {
+      githubUrl: 'https://github.com/devnauts-agency',
+      portfolioUrl: 'https://devnauts.io',
+      linkedinUrl: 'https://linkedin.com/company/devnauts',
+    },
+    rawInput: typeof input === 'string' ? input : input[input.length - 1]?.content,
   });
 
   console.log(`\nTokens used: ${usage.input_tokens} in / ${usage.output_tokens} out`);

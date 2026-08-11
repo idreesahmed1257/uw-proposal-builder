@@ -24,6 +24,9 @@ const registerUser = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            githubUrl: user.githubUrl,
+            portfolioUrl: user.portfolioUrl,
+            linkedinUrl: user.linkedinUrl,
             token: generateToken(user._id),
         });
     } catch (err) {
@@ -50,6 +53,9 @@ const loginUser = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            githubUrl: user.githubUrl,
+            portfolioUrl: user.portfolioUrl,
+            linkedinUrl: user.linkedinUrl,
             token: generateToken(user._id),
         });
     } catch (err) {
@@ -59,6 +65,36 @@ const loginUser = async (req, res) => {
 
 const getMe = async (req, res) => {
     return res.status(200).json(req.user);
+};
+
+const updateProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const { name, githubUrl, portfolioUrl, linkedinUrl } = req.body;
+
+        if (name !== undefined) user.name = name;
+        if (githubUrl !== undefined) user.githubUrl = githubUrl;
+        if (portfolioUrl !== undefined) user.portfolioUrl = portfolioUrl;
+        if (linkedinUrl !== undefined) user.linkedinUrl = linkedinUrl;
+
+        const updatedUser = await user.save();
+
+        return res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            role: updatedUser.role,
+            githubUrl: updatedUser.githubUrl,
+            portfolioUrl: updatedUser.portfolioUrl,
+            linkedinUrl: updatedUser.linkedinUrl,
+        });
+    } catch (err) {
+        return res.status(500).json({ message: 'Failed to update profile', error: err.message });
+    }
 };
 
 const registerAdmin = async (req, res) => {
@@ -81,10 +117,13 @@ const registerAdmin = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            githubUrl: user.githubUrl,
+            portfolioUrl: user.portfolioUrl,
+            linkedinUrl: user.linkedinUrl,
         });
     } catch (err) {
         return res.status(500).json({ message: 'Admin registration failed', error: err.message });
     }
 };
 
-module.exports = { registerUser, loginUser, getMe, registerAdmin };
+module.exports = { registerUser, loginUser, getMe, updateProfile, registerAdmin };

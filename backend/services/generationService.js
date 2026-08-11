@@ -162,7 +162,7 @@ ${projectBlocks}
 `.trim();
 }
 
-function buildJobSection(queryProfile) {
+function buildJobSection(queryProfile, rawInput) {
   return `
 ## THE JOB
 ${queryProfile.clean_query}
@@ -170,6 +170,17 @@ ${queryProfile.clean_query}
 Core requirements: ${queryProfile.core_requirements}
 ${queryProfile.tech_stack?.length ? `Tech stack mentioned: ${queryProfile.tech_stack.join(', ')}` : ''}
 ${queryProfile.industry_guess ? `Industry: ${queryProfile.industry_guess}` : ''}
+
+${rawInput ? `Original Prompt / Client Instructions:\n${rawInput}` : ''}
+`.trim();
+}
+
+function buildUserProfileSection(userProfile) {
+  return `
+## APPLICANT PROFILE & LINKS
+GitHub Profile: ${userProfile?.githubUrl || 'None provided'}
+Portfolio Website: ${userProfile?.portfolioUrl || 'None provided'}
+LinkedIn Profile: ${userProfile?.linkedinUrl || 'None provided'}
 `.trim();
 }
 
@@ -243,20 +254,41 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
    project from <portfolio_projects> that has a URL provided (i.e. URL is NOT "None"),
    you MUST include its exact URL alongside the project reference (for example:
    "On Dubaianer (https://dubaianer.de), I built..." or "...for Benefit Mankind (https://benefitmankind.co.uk)").
-   If a referenced project has URL listed as "None", do NOT invent or guess a URL.`;
+   If a referenced project has URL listed as "None", do NOT invent or guess a URL.
+11. APPLICANT PROFILE & REPOSITORY CITATIONS: If the job description, client instructions, or prompt asks for a GitHub link, repository, portfolio website, personal link, live demo, or code samples (or mentions "portfolio/github links"), cite the exact relevant URL provided in ## APPLICANT PROFILE & LINKS (for example: "You can inspect our GitHub repositories at https://github.com/..." or "See our agency portfolio at https://..."). If a specific profile link is listed as "None provided", state clearly that portfolio/GitHub links can be provided upon request — do NOT invent or guess a fake URL.`;
    
 }
 
-function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone) {
+function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone, userProfile, rawInput) {
+  const hasLinkRequest = /github|portfolio|repository|repositories|code sample|live link|website link|sample project/i.test(rawInput || '');
+
+  let taskDirectives = `Write a cover letter for the job above, following the tone reference and
+using only the portfolio projects provided. The proposal should feel like
+it was written by the same person who wrote the tone reference — same
+voice, same level of directness, same way of referencing past work.`;
+
+  if (hasLinkRequest) {
+    const gh = userProfile?.githubUrl;
+    const pf = userProfile?.portfolioUrl;
+    const linksText = [
+      gh ? `GitHub (${gh})` : null,
+      pf ? `Portfolio (${pf})` : null,
+    ].filter(Boolean).join(' and ');
+
+    if (linksText) {
+      taskDirectives += `\n\nCRITICAL INSTRUCTION: The client explicitly requested portfolio/GitHub links or code repositories. You MUST naturally cite our ${linksText} in the proposal so the client can review our code and past work.`;
+    } else {
+      taskDirectives += `\n\nCRITICAL INSTRUCTION: The client requested portfolio/GitHub links. State directly in the proposal that our GitHub repositories and live portfolio links can be provided immediately upon request.`;
+    }
+  }
+
   const sections = [
     buildToneSection(toneResult, lowConfidenceTone),
     buildPortfolioSection(portfolioResults, lowConfidencePortfolio),
-    buildJobSection(queryProfile),
+    buildUserProfileSection(userProfile),
+    buildJobSection(queryProfile, rawInput),
     `## YOUR TASK
-Write a cover letter for the job above, following the tone reference and
-using only the portfolio projects provided. The proposal should feel like
-it was written by the same person who wrote the tone reference — same
-voice, same level of directness, same way of referencing past work.
+${taskDirectives}
 
 ${lowConfidencePortfolio ? 'IMPORTANT: No directly matching project exists in the portfolio. Frame experience as transferable. Be honest.' : ''}
 ${lowConfidenceTone ? 'IMPORTANT: No matching tone example was available. Follow the style guide above precisely.' : ''}`,
@@ -276,6 +308,8 @@ ${lowConfidenceTone ? 'IMPORTANT: No matching tone example was available. Follow
  * @param {boolean} params.lowConfidencePortfolio
  * @param {object|null} params.toneResult     — first item from searchToneExamples().results, or null
  * @param {boolean} params.lowConfidenceTone
+ * @param {object} [params.userProfile]       — user profile links ({ githubUrl, portfolioUrl, linkedinUrl })
+ * @param {string} [params.rawInput]          — raw user input / job text
  * @returns {Promise<{ proposal: string, usage: object }>}
  */
 async function generateProposal({
@@ -284,6 +318,8 @@ async function generateProposal({
   lowConfidencePortfolio,
   toneResult,
   lowConfidenceTone,
+  userProfile,
+  rawInput,
 }) {
   const systemPrompt = buildSystemPrompt();
   const userPrompt = buildUserPrompt(
@@ -291,7 +327,9 @@ async function generateProposal({
     portfolioResults,
     lowConfidencePortfolio,
     toneResult,
-    lowConfidenceTone
+    lowConfidenceTone,
+    userProfile,
+    rawInput
   );
 
   const response = await groq.chat.completions.create({

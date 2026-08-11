@@ -1,13 +1,32 @@
 import { useState, useEffect } from 'react';
 import { fetchProjects, createProject, updateProject, deleteProject } from '../api/portfolio';
+import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import './AdminPage.css';
 
 export default function AdminPage() {
+  const { user, updateProfile } = useAuth();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+
+  const [profileData, setProfileData] = useState({
+    githubUrl: user?.githubUrl || '',
+    portfolioUrl: user?.portfolioUrl || '',
+    linkedinUrl: user?.linkedinUrl || '',
+  });
+  const [profileMsg, setProfileMsg] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setProfileData({
+        githubUrl: user.githubUrl || '',
+        portfolioUrl: user.portfolioUrl || '',
+        linkedinUrl: user.linkedinUrl || '',
+      });
+    }
+  }, [user]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -116,6 +135,17 @@ export default function AdminPage() {
     }
   };
 
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    setProfileMsg('Saving profile...');
+    const result = await updateProfile(profileData);
+    if (result.success) {
+      setProfileMsg('Profile links saved successfully!');
+    } else {
+      setProfileMsg(result.error || 'Error saving profile links');
+    }
+  };
+
   return (
     <div className="admin-container">
       <header className="admin-header">
@@ -129,6 +159,51 @@ export default function AdminPage() {
           </button>
         )}
       </header>
+
+      <div className="admin-form-card">
+        <h2>Profile & Agency Links</h2>
+        <form onSubmit={handleSaveProfile}>
+          <div className="admin-form-grid" style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
+            <div className="admin-form-group">
+              <label>GitHub Profile / Org URL</label>
+              <input
+                type="url"
+                value={profileData.githubUrl}
+                onChange={(e) => setProfileData((p) => ({ ...p, githubUrl: e.target.value }))}
+                placeholder="https://github.com/username"
+              />
+            </div>
+            <div className="admin-form-group">
+              <label>Portfolio Website URL</label>
+              <input
+                type="url"
+                value={profileData.portfolioUrl}
+                onChange={(e) => setProfileData((p) => ({ ...p, portfolioUrl: e.target.value }))}
+                placeholder="https://youragency.com"
+              />
+            </div>
+            <div className="admin-form-group">
+              <label>LinkedIn Profile URL</label>
+              <input
+                type="url"
+                value={profileData.linkedinUrl}
+                onChange={(e) => setProfileData((p) => ({ ...p, linkedinUrl: e.target.value }))}
+                placeholder="https://linkedin.com/in/username"
+              />
+            </div>
+          </div>
+          <div className="admin-form-actions" style={{ alignItems: 'center' }}>
+            {profileMsg && (
+              <span style={{ marginRight: 'auto', color: profileMsg.includes('success') ? '#4ade80' : '#f87171' }}>
+                {profileMsg}
+              </span>
+            )}
+            <button type="submit" className="admin-btn-primary" style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}>
+              Save Profile Links
+            </button>
+          </div>
+        </form>
+      </div>
 
       <div className="admin-form-card">
         <h2>Create New Admin</h2>
