@@ -125,11 +125,16 @@ described in general terms, and be honest that this specific domain is new.
 `.trim();
   }
 
-  const projectBlocks = portfolioResults.map((p, i) => `
+  const projectBlocks = portfolioResults.map((p, i) => {
+    const roleText = p.text?.split('\n').find(l => l.startsWith('Role:'))?.replace('Role: ', '') || 'Not specified';
+    const urlText = p.url ? p.url : (p.text?.split('\n').find(l => l.startsWith('URL: '))?.replace('URL: ', '').trim() || 'None');
+    return `
 Project ${i + 1}: ${p.title}
-Role: ${p.text?.split('\n').find(l => l.startsWith('Role:'))?.replace('Role: ', '') || 'Not specified'}
+Role: ${roleText}
+URL: ${urlText}
 ${p.text}
-`.trim()).join('\n\n---\n\n');
+`.trim();
+  }).join('\n\n---\n\n');
 
   if (lowConfidencePortfolio) {
     return `
@@ -227,13 +232,18 @@ CRITICAL RULES — violating any of these makes the proposal unusable:
    "Project 2:", or "Role:" from the portfolio context. Reference projects
    naturally in prose — e.g. "On Drive Direct, I built..." — not as a
    numbered/labeled list item.
-   9. NO REDUNDANT QUESTIONS: Before writing the closing question, check whether
+9. NO REDUNDANT QUESTIONS: Before writing the closing question, check whether
    the job description in ## THE JOB already answers it. Never ask for
    information (volume, scale, team size, timeline, budget, tech stack,
    etc.) that is already explicitly stated in the job description. If the
    JD already covers the obvious scoping questions, ask something more
    specific instead — an edge case, a technical decision, or a genuine
-   ambiguity the JD doesn't resolve.`;
+   ambiguity the JD doesn't resolve.
+10. PROJECT URL CITATIONS: Every time you mention or reference a specific portfolio
+   project from <portfolio_projects> that has a URL provided (i.e. URL is NOT "None"),
+   you MUST include its exact URL alongside the project reference (for example:
+   "On Dubaianer (https://dubaianer.de), I built..." or "...for Benefit Mankind (https://benefitmankind.co.uk)").
+   If a referenced project has URL listed as "None", do NOT invent or guess a URL.`;
    
 }
 

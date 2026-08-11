@@ -128,7 +128,7 @@ async function denseSearch(cleanQuery, { topK = CANDIDATE_POOL, industry, tags }
       inputs: { text: cleanQuery },
       topK,
     },
-    fields: ['title', 'industry', 'tags', 'normalizedTags', 'text', 'portfolioProjectId'],
+    fields: ['title', 'industry', 'tags', 'normalizedTags', 'text', 'portfolioProjectId', 'url'],
   };
 
   if (Object.keys(filter).length > 0) {
@@ -138,16 +138,21 @@ async function denseSearch(cleanQuery, { topK = CANDIDATE_POOL, industry, tags }
   const results = await index.namespace(NAMESPACE).searchRecords(searchRequest);
   const hits = results?.result?.hits || [];
 
-  return hits.map((hit) => ({
-    id: hit._id,
-    semanticScore: hit._score,
-    title: hit.fields?.title,
-    industry: hit.fields?.industry,
-    tags: hit.fields?.tags,
-    normalizedTags: hit.fields?.normalizedTags || [],
-    text: hit.fields?.text,
-    portfolioProjectId: hit.fields?.portfolioProjectId || hit._id,
-  }));
+  return hits.map((hit) => {
+    const text = hit.fields?.text || '';
+    const urlFromText = text.split('\n').find((l) => l.startsWith('URL: '))?.replace('URL: ', '').trim();
+    return {
+      id: hit._id,
+      semanticScore: hit._score,
+      title: hit.fields?.title,
+      industry: hit.fields?.industry,
+      tags: hit.fields?.tags,
+      normalizedTags: hit.fields?.normalizedTags || [],
+      text: text,
+      portfolioProjectId: hit.fields?.portfolioProjectId || hit._id,
+      url: hit.fields?.url || urlFromText || '',
+    };
+  });
 }
 
 /**
