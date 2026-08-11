@@ -13,6 +13,7 @@ export default function AdminPage() {
     title: '',
     role: '',
     industry: '',
+    url: '',
     description: '',
     skillsAndDeliverables: '',
     tags: '',
@@ -48,6 +49,7 @@ export default function AdminPage() {
       title: '',
       role: '',
       industry: '',
+      url: '',
       description: '',
       skillsAndDeliverables: '',
       tags: '',
@@ -61,6 +63,7 @@ export default function AdminPage() {
       title: project.title,
       role: project.role,
       industry: project.industry || '',
+      url: project.url || '',
       description: project.description,
       skillsAndDeliverables: project.skillsAndDeliverables.join(', '),
       tags: project.tags.join(', '),
@@ -172,6 +175,10 @@ export default function AdminPage() {
                 <label>Industry</label>
                 <input name="industry" value={formData.industry} onChange={handleInputChange} placeholder="e.g. Retail, FinTech" />
               </div>
+              <div className="admin-form-group">
+                <label>Project URL</label>
+                <input name="url" type="url" value={formData.url} onChange={handleInputChange} placeholder="e.g. https://example.com" />
+              </div>
               <div className="admin-form-group full-width">
                 <label>Description</label>
                 <textarea required name="description" value={formData.description} onChange={handleInputChange} placeholder="Describe the project challenges and solutions..." />
@@ -201,7 +208,24 @@ export default function AdminPage() {
             <div key={project._id} className="admin-project-card">
               <div className="admin-project-header">
                 <div>
-                  <h3 className="admin-project-title">{project.title}</h3>
+                  <h3 className="admin-project-title">
+                    {project.title}
+                    {project.url && (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ marginLeft: '8px', color: '#60a5fa', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
+                        title="Open Project URL"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M15 3h6v6" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M10 14L21 3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </a>
+                    )}
+                  </h3>
                   <div className="admin-project-role">{project.role}</div>
                 </div>
                 <div className="admin-project-actions">

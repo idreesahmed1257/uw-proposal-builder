@@ -18,7 +18,7 @@ const getProjects = async (req, res) => {
 // @access  Private/Admin
 const createProject = async (req, res) => {
     try {
-        const { title, role, description, skillsAndDeliverables, tags, industry } = req.body;
+        const { title, role, description, skillsAndDeliverables, tags, industry, url } = req.body;
 
         const project = new PortfolioProject({
             title,
@@ -27,6 +27,7 @@ const createProject = async (req, res) => {
             skillsAndDeliverables,
             tags,
             industry,
+            url,
         });
 
         const createdProject = await project.save();
@@ -52,7 +53,7 @@ const createProject = async (req, res) => {
 // @access  Private/Admin
 const updateProject = async (req, res) => {
     try {
-        const { title, role, description, skillsAndDeliverables, tags, industry } = req.body;
+        const { title, role, description, skillsAndDeliverables, tags, industry, url } = req.body;
 
         const project = await PortfolioProject.findById(req.params.id);
 
@@ -63,6 +64,7 @@ const updateProject = async (req, res) => {
             project.skillsAndDeliverables = skillsAndDeliverables || project.skillsAndDeliverables;
             project.tags = tags || project.tags;
             project.industry = industry || project.industry;
+            if (url !== undefined) project.url = url;
 
             const updatedProject = await project.save();
 

@@ -19,6 +19,7 @@ const portfolioProjects = [
         ],
         tags: ['SaaS', 'Multi-tenant', 'Electron', 'Biometrics', 'MongoDB', 'React','Kiosk', 'Hardware','RBAC'],
         industry: 'Enterprise / Security & Facilities',
+        url: '',
     },
     {
         title: 'Henrietta: AI-First Multi-Tenant HR Platform with Voice Assistant',
@@ -34,6 +35,7 @@ const portfolioProjects = [
         ],
         tags: ['AI', 'RAG', 'GPT-4', 'Voice', 'HR', 'Fastify', 'Multi-tenant'],
         industry: 'HR Tech / SaaS',
+        url: '',
     },
     {
         title: 'Drive Direct: Vehicle Appraisal App with GPS Tracking and Offline Sync',
@@ -49,6 +51,7 @@ const portfolioProjects = [
         ],
         tags: ['React Native', 'Mobile', 'GPS', 'Offline-first', 'Field Ops'],
         industry: 'Automotive / Field Services',
+        url: '',
     },
     {
         title: 'Hyndburn Pantry: RFID-Integrated Welfare Management Desktop App',
@@ -64,6 +67,7 @@ const portfolioProjects = [
         ],
         tags: ['Electron', 'RFID', 'Desktop App', 'Fastify', 'MongoDB', 'Nonprofit','Hardware','RBAC'],
         industry: 'Nonprofit / Community Welfare',
+        url: '',
     },
     {
         title: 'Benefit Mankind: Unified Charity Donation Platform (Web and Mobile)',
@@ -79,6 +83,7 @@ const portfolioProjects = [
         ],
         tags: ['React Native', 'Stripe', 'Payments', 'Compliance', 'Nonprofit','Mobile','Charity'],
         industry: 'Charity / Nonprofit',
+        url: 'https://benefitmankind.co.uk',
     },
     {
         title: 'Dubaianer: Luxury Real Estate Discovery Platform for Dubai Market',
@@ -94,6 +99,7 @@ const portfolioProjects = [
         ],
         tags: ['Next.js', 'Real Estate', 'MongoDB', 'Mapbox', 'Lead Generation'],
         industry: 'Real Estate',
+        url: 'https://dubaianer.de',
     },
     {
         title: 'Social Bevy: Location-Based Social Discovery App with AI Mascot',
@@ -109,6 +115,7 @@ const portfolioProjects = [
         ],
         tags: ['Socket.IO', 'Xano', 'Social', 'Marketplace', 'AI Assistant','Mobile'],
         industry: 'Social / Consumer',
+        url: '',
     },
     {
         title: 'BData: Real-Time Device Monitoring System with Zero Trust Architecture',
@@ -124,6 +131,7 @@ const portfolioProjects = [
         ],
         tags: ['Microservices', 'GCP', 'MQTT', 'Kafka', 'Zero Trust', 'IoT', 'DevOps','Monitoring','Real-Time'],
         industry: 'IoT / Enterprise Infrastructure',
+        url: '',
     },
     // Add more portfolio projects here as objects in this same shape.
 ];

@@ -21,6 +21,7 @@ function buildSourceText(project) {
     `Description: ${project.description}`,
     skills ? `Skills and deliverables: ${skills}` : '',
     project.industry ? `Industry: ${project.industry}` : '',
+    project.url ? `URL: ${project.url}` : '',
   ]
     .filter(Boolean)
     .join('\n');
@@ -39,6 +40,7 @@ async function syncProjectToPinecone(project) {
       text: sourceText,
       title: project.title,
       industry: project.industry || '',
+      url: project.url || '',
       tags: rawTags,
       // Canonical form of `tags`, computed via the same TAG_ALIASES map used
       // on extracted job-description stacks at query time. Keyword-overlap

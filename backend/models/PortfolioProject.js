@@ -30,6 +30,11 @@ const portfolioProjectSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    url: {
+      type: String,
+      default: '',
+      trim: true,
+    },
 
     embeddingStatus: {
       type: String,
