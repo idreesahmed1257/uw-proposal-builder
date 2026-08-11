@@ -320,6 +320,7 @@ async function generateProposal({
   userProfile,
   rawInput,
 }) {
+   console.log("### GENERATION SERVICE VERSION: LOCAL-TEST-123 ###");
   const systemPrompt = buildSystemPrompt();
   const userPrompt = buildUserPrompt(
     queryProfile,
