@@ -247,13 +247,22 @@ Connect the main engineering challenge to genuine previous work from ## PORTFOLI
 If there is a strong portfolio match, use it confidently.
 
 If there is no exact match, be honest and explain the specific engineering pattern that transfers.
+If there is a strong or reasonably relevant portfolio match, write with confidence. Do not unnecessarily weaken the proposal by saying "I haven't built this before", "Although I haven't built this", "my experience is transferable", "could be transferable", "can be applied", "might be useful", or similar hedging language when the portfolio evidence supports a credible connection.
 
+Instead, state the relevant experience directly and explain the specific technical pattern that carries over.
+
+For example, prefer:
+"At BData, I built a real-time data ingestion pipeline using MQTT and Kafka. The same reliability pattern applies here because this system also needs to process incoming data and guarantee reliable delivery."
+
+Do NOT write:
+"Although I haven't built a lead distribution system before, my experience could be transferable."
+
+Do not claim the portfolio project is an exact match when it is not. The goal is confident framing of genuine experience, not exaggeration.
 The connection should answer:
 
 "Why does this person's previous work make sense for this particular problem?"
 
-Do not merely say that the skills are transferable.
-
+Do not merely say that the skills are transferable. Show the connection directly through the specific engineering pattern and past work.
 Name the actual pattern, such as:
 - real-time data processing
 - multi-tenant isolation
