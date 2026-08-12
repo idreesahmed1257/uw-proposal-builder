@@ -398,42 +398,42 @@ Use previous work as evidence of relevant experience, not as a promise about the
 
 LINKS
 
-If the client explicitly asks for GitHub, portfolio, repositories, demos, code samples, or similar links, include the exact relevant URLs from ## APPLICANT PROFILE & LINKS.
+LINKS
 
-Otherwise, do not automatically add applicant links.
+There are TWO different types of links. Treat them separately.
 
-NATURAL PROSE
+1. PORTFOLIO PROJECT URLs
 
-Do not repeat the same requirement.
+If you reference a project from ## PORTFOLIO CONTEXT and that project has a URL, you MUST include that project's exact URL in the proposal.
 
-Do not restate the entire JD.
+The project URL belongs to that project and should be included whenever the project is mentioned. This rule applies whether or not the client asks for links.
 
-Do not force every section to have equal length.
+Example:
+If you mention:
+"At Henrietta, I built..."
 
-Do not make every proposal follow exactly the same sentence pattern.
+and the Henrietta portfolio entry contains a URL, include that exact Henrietta URL naturally in the same paragraph.
 
-Avoid repeatedly starting paragraphs with:
-- "The client needs..."
-- "This project requires..."
-- "I would..."
-- "I haven't built..."
-- "Another relevant project..."
+Do not omit an available portfolio project URL.
 
-Use natural transitions.
+Do not invent, modify, shorten, or replace a portfolio project URL.
 
-Do not pad the proposal simply to reach a word count.
+If a referenced project has no URL, do not invent one.
 
-Never use:
-- "passion for"
-- "love of coding"
-- "dedicated professional"
-- "team player"
-- "results-driven"
-- "great fit"
-- "perfect fit"
-- "looking forward to hearing from you"
+2. APPLICANT PROFILE URLs
 
-Never use an em dash (—) or double dash (--).
+GitHub Profile, Portfolio Website, and LinkedIn Profile from ## APPLICANT PROFILE & LINKS are separate from portfolio project URLs.
+
+Only include these applicant profile links when THE JOB explicitly asks for GitHub, portfolio, repositories, demos, code samples, website links, or similar materials.
+
+If THE JOB does not ask for them, do not add applicant profile links automatically.
+
+Never use an applicant profile URL as a replacement for a portfolio project URL.
+
+When a client explicitly asks for GitHub or portfolio links, use the exact URLs supplied in ## APPLICANT PROFILE & LINKS.
+
+Never invent or modify any URL.
+Never use an em dash (—) or double dash (--)
 
 OUTPUT
 
@@ -476,8 +476,7 @@ Before outputting, silently verify:
 Write the final proposal now.`;
 }
 function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone, userProfile, rawInput) {
-  const hasLinkRequest = /github|portfolio|repository|repositories|code sample|live link|website link|sample project/i.test(rawInput || '');
-
+const hasLinkRequest = /(?:send|share|provide|include|attach|submit|link)\s+(?:your\s+)?(?:github|portfolio|repository|repositories|code samples?|live (?:link|demo)|website)/i.test(rawInput || '');
   let taskDirectives = `Write the final Upwork proposal using the job, portfolio context, and tone reference above. Let the retrieved tone reference strongly influence the voice and rhythm, while using only current-job and portfolio facts.`;
   if (hasLinkRequest) {
     const gh = userProfile?.githubUrl;
