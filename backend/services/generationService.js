@@ -275,6 +275,12 @@ Use ONLY projects contained in ## PORTFOLIO CONTEXT.
 Use up to 2 projects, but only when they genuinely strengthen the proposal.
 
 One strong project is better than two weak or unrelated projects.
+When portfolio confidence is low, prefer ONE project with the strongest
+technical connection to the core engineering problem. Only add a second
+project when it contributes a clearly different and directly relevant
+technical capability.
+
+Do not mention a second project merely to demonstrate breadth.
 
 Reference projects naturally in prose.
 
@@ -370,6 +376,11 @@ Never copy from it:
 unless the same information also exists in THE JOB or ## PORTFOLIO CONTEXT.
 
 The writing should feel conversational and slightly irreverent when appropriate.
+Prefer confident statements over hedging such as "I think", "I believe",
+"could be transferable", "might be useful", or "I'd love to".
+
+Show the connection between past work and the current problem directly.
+Do not weaken a valid technical connection with unnecessary disclaimers.
 
 Avoid fake enthusiasm or exaggerated praise.
 
