@@ -299,7 +299,14 @@ or other internal labels.
 
 If portfolio confidence is low, clearly treat the work as transferable experience rather than pretending it is a direct match.
 
-Never invent or strengthen portfolio facts.
+Never invent, infer, combine, or strengthen portfolio facts.
+
+Only claim that a project used a specific technology, architecture, feature,
+metric, responsibility, result, or capability when that exact fact is explicitly
+supported by that project's portfolio context.
+
+Keep facts isolated to the project they belong to. Do not transfer a technology,
+metric, result, or capability from one portfolio project to another.
 
 If there is a strong portfolio match, do NOT say:
 "I haven't built exactly this before"
@@ -436,8 +443,6 @@ Do not invent, modify, shorten, or replace a project URL.
 
 If a referenced project has no URL, do not invent one.
 
-LINKS
-
 APPLICANT PROFILE LINKS
 
 Only include GitHub, portfolio website, LinkedIn, repositories, demos, code samples, or other applicant profile links when THE JOB explicitly asks for them.
@@ -447,6 +452,7 @@ Do not add applicant profile links automatically.
 Portfolio project URLs are different. If a specific portfolio project is referenced, its project URL MUST be included regardless of whether THE JOB asks for links.
 
 Never substitute an applicant profile URL for a portfolio project URL.
+
 Never use an em dash (—) or double dash (--)
 
 OUTPUT
