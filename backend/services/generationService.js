@@ -482,7 +482,7 @@ Before outputting, silently verify:
 - There are no invented facts.
 - There are no em dashes or double dashes.
 
-Write the final proposal now.`;
+Write the final proposal now .`;
 }
 function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone, userProfile, rawInput) {
 const hasLinkRequest = /(?:send|share|provide|include|attach|submit|link)\s+(?:your\s+)?(?:github|portfolio|repository|repositories|code samples?|live (?:link|demo)|website)/i.test(rawInput || '');
