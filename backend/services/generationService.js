@@ -398,25 +398,24 @@ Use previous work as evidence of relevant experience, not as a promise about the
 
 LINKS
 
-LINKS
-
-There are TWO different types of links. Treat them separately.
+There are two separate URL rules. Follow them independently.
 
 1. PORTFOLIO PROJECT URLs
 
-If you reference a project from ## PORTFOLIO CONTEXT and that project has a URL, you MUST include that project's exact URL in the proposal.
+Whenever you reference a specific project from ## PORTFOLIO CONTEXT, you MUST include that project's exact URL if a URL is available for that project.
 
-The project URL belongs to that project and should be included whenever the project is mentioned. This rule applies whether or not the client asks for links.
+The URL must appear naturally in the same paragraph where the project is referenced.
 
-Example:
-If you mention:
-"At Henrietta, I built..."
+For example, if you write:
+"At Henrietta, I built an AI-first multi-tenant HR platform..."
 
-and the Henrietta portfolio entry contains a URL, include that exact Henrietta URL naturally in the same paragraph.
+and the Henrietta project in ## PORTFOLIO CONTEXT has a URL, you MUST include that exact Henrietta URL in that paragraph.
 
-Do not omit an available portfolio project URL.
+This rule applies even when THE JOB does not ask for links.
 
-Do not invent, modify, shorten, or replace a portfolio project URL.
+Do not omit a project URL when referencing that project.
+
+Do not invent, modify, shorten, or replace a project URL.
 
 If a referenced project has no URL, do not invent one.
 
@@ -424,15 +423,11 @@ If a referenced project has no URL, do not invent one.
 
 GitHub Profile, Portfolio Website, and LinkedIn Profile from ## APPLICANT PROFILE & LINKS are separate from portfolio project URLs.
 
-Only include these applicant profile links when THE JOB explicitly asks for GitHub, portfolio, repositories, demos, code samples, website links, or similar materials.
+Only include applicant profile links when THE JOB explicitly asks for GitHub, portfolio, repositories, demos, code samples, website links, or similar materials.
 
-If THE JOB does not ask for them, do not add applicant profile links automatically.
+If THE JOB does not ask for these links, do not add applicant profile links automatically.
 
-Never use an applicant profile URL as a replacement for a portfolio project URL.
-
-When a client explicitly asks for GitHub or portfolio links, use the exact URLs supplied in ## APPLICANT PROFILE & LINKS.
-
-Never invent or modify any URL.
+Never use an applicant profile URL instead of a portfolio project URL.
 Never use an em dash (—) or double dash (--)
 
 OUTPUT
