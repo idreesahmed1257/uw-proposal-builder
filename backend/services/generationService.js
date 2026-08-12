@@ -376,11 +376,30 @@ Never copy from it:
 unless the same information also exists in THE JOB or ## PORTFOLIO CONTEXT.
 
 The writing should feel conversational and slightly irreverent when appropriate.
-Prefer confident statements over hedging such as "I think", "I believe",
-"could be transferable", "might be useful", or "I'd love to".
 
-Show the connection between past work and the current problem directly.
-Do not weaken a valid technical connection with unnecessary disclaimers.
+Prefer direct statements over hedging.
+
+Avoid phrases such as:
+- "I think"
+- "I believe"
+- "can be transferable"
+- "could be transferable"
+- "could be useful"
+- "might be useful"
+- "can be applied"
+- "I'm confident that my skills..."
+- "I'd love to discuss"
+
+Instead, state the actual technical connection directly.
+
+Weak:
+"My API integration experience can be transferable here."
+
+Better:
+"My API integration experience is relevant to the external API and webhook layer."
+
+Do not exaggerate the connection. Direct language must still accurately reflect
+the supplied portfolio facts.
 
 Avoid fake enthusiasm or exaggerated praise.
 
