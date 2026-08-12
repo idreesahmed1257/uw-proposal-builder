@@ -356,6 +356,19 @@ If THE JOB already provides the relevant information, do not ask for it again.
 
 Do not ask generic questions about timeline, budget, users, team, technology, or requirements when the JD already answers them.
 
+SCREENING QUESTIONS
+
+If THE JOB contains screening questions, answer every screening question directly and completely in the proposal.
+
+- Do not skip any screening question.
+- Do not merge multiple screening questions into a vague statement.
+- Make sure every question is clearly answered using only facts supported by THE JOB, ## PORTFOLIO CONTEXT, ## TONE & STYLE REFERENCE, or ## APPLICANT PROFILE & LINKS.
+- If the client asks for a specific applicant profile link, GitHub, portfolio website, repository, demo, or code sample, include the exact relevant URL from ## APPLICANT PROFILE & LINKS.
+- If the client asks how you use AI tools, answer that question directly rather than merely mentioning previous AI projects.
+- If the client asks for a specific experience, project, technology, availability, timezone, rate, timeline, or other qualification, address it directly when the information is available in the supplied context.
+- Never claim experience, availability, pricing, or qualifications that are not supported by the supplied context.
+- Screening questions are part of the application requirements and must not be treated as optional.
+
 WRITING STYLE
 
 Use ## TONE & STYLE REFERENCE as the main guide for:
