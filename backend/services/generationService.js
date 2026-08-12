@@ -543,7 +543,9 @@ async function generateProposal({
     userProfile,
     rawInput
   );
-
+console.log('\n### PORTFOLIO URL DEBUG ###');
+console.log(userPrompt.match(/URL:.*$/gm));
+console.log('### END PORTFOLIO URL DEBUG ###\n');
   const response = await groq.chat.completions.create({
     model: GENERATION_MODEL,
     max_tokens: 2048, // was 1024 — too tight when tone example is long; proposals
