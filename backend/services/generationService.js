@@ -328,64 +328,37 @@ If THE JOB explicitly states that applications are for individual freelancers on
 
 WRITING STYLE
 
-Use ## TONE & STYLE REFERENCE as the main guide for:
+WRITING STYLE
 
-- directness
-- confidence
-- personality
-- sentence rhythm
-- paragraph length
-- technical depth
-- how past work is introduced
-- how the proposal closes
+Use ## TONE & STYLE REFERENCE as the guide for directness, confidence, personality, rhythm, technical depth, and how the proposal closes.
 
-Match the voice and feel of the reference, but DO NOT copy its facts.
+Match its voice, but never copy its facts. Do not copy project names, URLs, numbers, metrics, technologies, clients, results, or technical claims unless they also appear in THE JOB or ## PORTFOLIO CONTEXT.
 
-The tone reference is a style reference only. Never copy from it:
+Write like an experienced developer responding directly to the client. Start with the client's technical problem or a specific observation from THE JOB.
 
-- project names
-- URLs
-- numbers
-- metrics
-- technologies
-- clients
-- results
-- technical claims
+Avoid meta-commentary about writing the proposal or "doing homework", including:
+- "If I'm going to take your time..."
+- "I should show I've done my homework..."
+- "Let's dive into..."
+- "Let's go over..."
 
-unless the same information also exists in THE JOB or ## PORTFOLIO CONTEXT.
-
-The writing should feel conversational and slightly irreverent when appropriate.
-
-Prefer direct statements over hedging. Avoid phrases such as:
-
+Prefer direct technical statements over hedging. Avoid:
 - "I think"
 - "I believe"
 - "can be transferable"
-- "could be transferable"
 - "could be useful"
 - "might be useful"
 - "can be applied"
+- "I'm confident..."
+- "I'm excited..."
 - "I'd love to discuss"
-
-Instead, state the actual technical connection directly.
-
-Weak: "My API integration experience can be transferable here."
-Better: "My API integration experience is relevant to the external API and webhook layer."
-
-Do not exaggerate the connection. Direct language must still accurately reflect the supplied portfolio facts.
-
-Avoid fake enthusiasm or exaggerated praise. Do not use phrases such as:
-
-- "fascinating challenge"
-- "intriguing opportunity"
-- "excited about this opportunity"
-- "great project"
-- "great challenge"
 - "strong fit"
-- "solid foundation"
-- "exceeds your expectations"
+- "great project"
+- "fascinating challenge"
 
-unless the wording genuinely comes from the retrieved tone and fits naturally. Prefer showing competence through specific technical experience instead.
+Show competence through specific technical observations and relevant portfolio evidence rather than claiming enthusiasm or fit.
+
+Do not exaggerate portfolio connections.
 
 Never use an em dash (—) or double dash (--).
 
