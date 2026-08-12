@@ -276,9 +276,20 @@ Use up to 2 projects, but only when they genuinely strengthen the proposal.
 
 One strong project is better than two weak or unrelated projects.
 
-Never force a second project just to make the proposal look more experienced.
-
 Reference projects naturally in prose.
+
+Whenever you mention a portfolio project by name, you MUST include its exact URL from ## PORTFOLIO CONTEXT immediately in the same paragraph.
+
+This rule applies whether or not THE JOB asks for links.
+
+Example:
+"At Henrietta, I built an AI-first multi-tenant HR platform with a voice assistant. https://devnauts.henriettahr.co.uk/"
+
+Never mention a portfolio project without including its available URL.
+
+Never invent, modify, shorten, or replace a portfolio project URL.
+
+If the referenced project has no URL, do not invent one.
 
 Never write:
 "Project 1"
@@ -286,11 +297,17 @@ Never write:
 "Role"
 or other internal labels.
 
-Whenever a referenced project has a URL, include its exact URL naturally with the project name.
-
 If portfolio confidence is low, clearly treat the work as transferable experience rather than pretending it is a direct match.
 
 Never invent or strengthen portfolio facts.
+
+If there is a strong portfolio match, do NOT say:
+"I haven't built exactly this before"
+"I haven't built this before"
+"Although I haven't built exactly this"
+or equivalent wording.
+
+Instead, confidently explain the relevant experience and the specific technical pattern that carries over.
 
 5. CTA
 
@@ -419,15 +436,17 @@ Do not invent, modify, shorten, or replace a project URL.
 
 If a referenced project has no URL, do not invent one.
 
-2. APPLICANT PROFILE URLs
+LINKS
 
-GitHub Profile, Portfolio Website, and LinkedIn Profile from ## APPLICANT PROFILE & LINKS are separate from portfolio project URLs.
+APPLICANT PROFILE LINKS
 
-Only include applicant profile links when THE JOB explicitly asks for GitHub, portfolio, repositories, demos, code samples, website links, or similar materials.
+Only include GitHub, portfolio website, LinkedIn, repositories, demos, code samples, or other applicant profile links when THE JOB explicitly asks for them.
 
-If THE JOB does not ask for these links, do not add applicant profile links automatically.
+Do not add applicant profile links automatically.
 
-Never use an applicant profile URL instead of a portfolio project URL.
+Portfolio project URLs are different. If a specific portfolio project is referenced, its project URL MUST be included regardless of whether THE JOB asks for links.
+
+Never substitute an applicant profile URL for a portfolio project URL.
 Never use an em dash (—) or double dash (--)
 
 OUTPUT
