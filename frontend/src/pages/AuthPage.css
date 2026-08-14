@@ -89,6 +89,10 @@
 .auth-brand img {
   width: 48px;
   height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 18px rgba(6, 182, 212, 0.55), 0 0 30px rgba(99, 102, 241, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .auth-brand-name {

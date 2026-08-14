@@ -65,7 +65,9 @@ export default function ChatWindow({ activeChat, messages, onSend, userName, gen
     return (
       <div className="chat-window">
         <div className="chat-empty">
-          <img src={logo} alt="" />
+          <div className="chat-empty-logo-wrap">
+            <img src={logo} alt="DevNauts Logo" className="chat-empty-logo" />
+          </div>
           <h2>{firstName ? `What are we building, ${firstName}?` : 'What are we building today?'}</h2>
           <div className="chat-empty-composer">
             <Composer onSend={onSend} placeholder="Paste a client brief to start a proposal…" disabled={isGenerating} />

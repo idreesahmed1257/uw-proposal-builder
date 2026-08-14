@@ -3,10 +3,13 @@
   flex-shrink: 0;
   height: 100vh;
   background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
   padding: 16px 12px;
+  z-index: 10;
 }
 
 .sidebar-brand {
@@ -17,8 +20,12 @@
 }
 
 .sidebar-brand img {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.5), 0 0 20px rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .sidebar-brand span {
@@ -69,6 +76,25 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+.chat-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+.chat-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.4);
 }
 
 .chat-list-empty {
