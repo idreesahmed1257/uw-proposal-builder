@@ -116,7 +116,8 @@ function rescore(candidates, queryProfile) {
         candidate.industry.toLowerCase().includes(queryProfile.industry_guess.toLowerCase())
         ? 1
         : 0;
-    WEIGHTS.semantic * candidate.semanticScore +
+    const finalScore =
+      WEIGHTS.semantic * candidate.semanticScore +
       WEIGHTS.keywordOverlap * keywordScore +
       WEIGHTS.industryMatch * industryBonus;
 
