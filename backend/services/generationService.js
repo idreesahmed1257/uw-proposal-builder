@@ -1,35 +1,6 @@
-// backend/services/generationService.js
-//
-// Proposal generation layer — the final step in the pipeline.
-//
-// Takes outputs from BOTH retrieval layers and produces a finished
-// Upwork cover letter in the user's voice.
-//
-// Inputs:
-//   queryProfile        — from queryUnderstandingService (clean_query,
-//                         core_requirements, tech_stack, project_type, etc.)
-//   portfolioResults    — from searchPortfolio() (matched past projects)
-//   lowConfidencePortfolio — boolean: no strong portfolio match exists
-//   toneResult          — from searchToneExamples() (best matching past proposal)
-//   lowConfidenceTone   — boolean: no strong tone example match exists
-//
-// Output: { proposal: string, usage: object }
-//
-// Model choice: Claude Sonnet (claude-sonnet-4-6) — this is where the
-// quality budget goes. Extraction (Groq/free) is cheap; generation is the
-// one call worth paying for. Proposals are short (300-600 words) so cost
-// per generation is low even with a capable model.
-//
-// TESTING MODE: using Groq free API instead of Anthropic.
-// Swap back to Anthropic for production — see comment on generateProposal().
-
 const Groq = require('groq-sdk');
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
-// llama-3.3-70b-versatile is Groq's strongest free model for generation.
-// Not as good as Claude Sonnet at tone mimicry but sufficient for testing
-// whether the prompt structure and pipeline wiring are correct.
 const GENERATION_MODEL = 'llama-3.3-70b-versatile';
 
 // ─── Default tone fallback ────────────────────────────────────────────────────
@@ -81,14 +52,9 @@ RULES:
 - 200–350 words is preferred. Use fewer words when the job is simple.
 `.trim();
 
-// ─── Prompt assembly ──────────────────────────────────────────────────────────
 
 function buildToneSection(toneResult, lowConfidenceTone) {
   if (!lowConfidenceTone && toneResult?.ourResponse) {
-    // Truncate to the first ~1000 characters — the opener and first few
-    // paragraphs are where the voice is clearest. Pasting the entire
-    // our_response (some are 4000+ chars) bloats the prompt past the point
-    // where the model has enough output budget to actually write the proposal.
     const toneSnippet = toneResult.ourResponse.length > 1000
       ? toneResult.ourResponse.slice(0, 1000) + '\n\n[... rest of proposal omitted for brevity ...]'
       : toneResult.ourResponse;
@@ -104,8 +70,6 @@ ${toneSnippet}
 </past_proposal>
 `.trim();
   }
-
-  // Fallback: no good tone match — use the default description instead
   return `
 ## TONE & STYLE GUIDE
 No closely-matching past proposal was available as a style reference.
@@ -458,7 +422,7 @@ Before outputting, silently verify:
 Write the final proposal now .`;
 }
 function buildUserPrompt(queryProfile, portfolioResults, lowConfidencePortfolio, toneResult, lowConfidenceTone, userProfile, rawInput) {
-const hasLinkRequest = /(?:send|share|provide|include|attach|submit|link)\s+(?:your\s+)?(?:github|portfolio|repository|repositories|code samples?|live (?:link|demo)|website)/i.test(rawInput || '');
+  const hasLinkRequest = /(?:send|share|provide|include|attach|submit|link)\s+(?:your\s+)?(?:github|portfolio|repository|repositories|code samples?|live (?:link|demo)|website)/i.test(rawInput || '');
   let taskDirectives = `Write the final Upwork proposal using the job, portfolio context, and tone reference above. Let the retrieved tone reference strongly influence the voice and rhythm, while using only current-job and portfolio facts.`;
   if (hasLinkRequest) {
     const gh = userProfile?.githubUrl;
@@ -490,7 +454,7 @@ ${lowConfidenceTone ? 'IMPORTANT: No matching tone example was available. Follow
   return sections.join('\n\n');
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
+
 
 /**
  * Generate a proposal for a given job.
@@ -514,7 +478,7 @@ async function generateProposal({
   userProfile,
   rawInput,
 }) {
-   console.log("### GENERATION SERVICE VERSION: LOCAL-TEST-123 ###");
+  console.log("### GENERATION SERVICE VERSION: LOCAL-TEST-123 ###");
   const systemPrompt = buildSystemPrompt();
   const userPrompt = buildUserPrompt(
     queryProfile,
@@ -525,13 +489,13 @@ async function generateProposal({
     userProfile,
     rawInput
   );
-console.log('\n### PORTFOLIO URL DEBUG ###');
-console.log(userPrompt.match(/URL:.*$/gm));
-console.log('### END PORTFOLIO URL DEBUG ###\n');
+  console.log('\n### PORTFOLIO URL DEBUG ###');
+  console.log(userPrompt.match(/URL:.*$/gm));
+  console.log('### END PORTFOLIO URL DEBUG ###\n');
   const response = await groq.chat.completions.create({
     model: GENERATION_MODEL,
     max_tokens: 2048, // was 1024 — too tight when tone example is long; proposals
-                      // are 300-500 words output but input prompt can be 2000+ tokens
+    // are 300-500 words output but input prompt can be 2000+ tokens
     temperature: 0.7, // slightly creative — this is writing, not extraction
     messages: [
       { role: 'system', content: systemPrompt },
@@ -548,9 +512,7 @@ console.log('### END PORTFOLIO URL DEBUG ###\n');
 
   return {
     proposal,
-    // Groq returns prompt_tokens/completion_tokens; normalise to a consistent
-    // shape so swapping back to Anthropic later only requires changing the
-    // client above, not any calling code.
+
     usage: {
       input_tokens: response.usage?.prompt_tokens ?? 0,
       output_tokens: response.usage?.completion_tokens ?? 0,

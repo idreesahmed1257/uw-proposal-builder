@@ -1,11 +1,3 @@
-// backend/services/toneRetrievalService.js
-//
-// Retrieval for the 'tone-examples' namespace — finds the most similar
-// past proposal(s) to a new client brief, to use as a STYLE/TONE reference
-// at generation time. Simpler than searchPortfolio() (retrievalService.js):
-// no keyword-overlap rescoring, since tone matching is about "how similar
-// is this type of job" not precise tech-stack grounding — that grounding
-// already happens via portfolio-projects.
 
 const { Pinecone } = require('@pinecone-database/pinecone');
 
@@ -14,12 +6,6 @@ const NAMESPACE = 'tone-examples';
 
 const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
 
-// Below this raw semantic score, don't trust the match as a genuine tone
-// reference — a loosely-themed but unrelated brief (e.g. a design request
-// matching a proposal that happens to mention "UI/UX designers") can still
-// score ~0.30-0.35. Calibrated from early manual tests: genuine matches
-// landed 0.59-0.72, a themed-but-unrelated non-match landed 0.33. Re-tune
-// as more real briefs are tested — this is a small initial sample.
 const LOW_CONFIDENCE_THRESHOLD = 0.45;
 
 /**

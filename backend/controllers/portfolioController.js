@@ -1,9 +1,6 @@
 const PortfolioProject = require('../models/PortfolioProject');
 const { syncProjectToPinecone, deleteProjectFromPinecone } = require('../services/pineconeService');
 
-// @desc    Get all portfolio projects
-// @route   GET /api/portfolio
-// @access  Private/Admin
 const getProjects = async (req, res) => {
     try {
         const projects = await PortfolioProject.find({}).sort({ createdAt: -1 });
@@ -13,9 +10,6 @@ const getProjects = async (req, res) => {
     }
 };
 
-// @desc    Create a portfolio project
-// @route   POST /api/portfolio
-// @access  Private/Admin
 const createProject = async (req, res) => {
     try {
         const { title, role, description, skillsAndDeliverables, tags, industry, url } = req.body;
@@ -32,8 +26,6 @@ const createProject = async (req, res) => {
 
         const createdProject = await project.save();
 
-        // Sync to Pinecone right away — failures here shouldn't block the save,
-        // but we do log and reflect the failure in embeddingStatus.
         try {
             await syncProjectToPinecone(createdProject);
         } catch (syncErr) {
@@ -48,9 +40,6 @@ const createProject = async (req, res) => {
     }
 };
 
-// @desc    Update a portfolio project
-// @route   PUT /api/portfolio/:id
-// @access  Private/Admin
 const updateProject = async (req, res) => {
     try {
         const { title, role, description, skillsAndDeliverables, tags, industry, url } = req.body;
@@ -85,9 +74,6 @@ const updateProject = async (req, res) => {
     }
 };
 
-// @desc    Delete a portfolio project
-// @route   DELETE /api/portfolio/:id
-// @access  Private/Admin
 const deleteProject = async (req, res) => {
     try {
         const project = await PortfolioProject.findById(req.params.id);

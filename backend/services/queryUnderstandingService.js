@@ -1,5 +1,3 @@
-
-
 const Groq = require('groq-sdk');
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY2 });
@@ -39,14 +37,8 @@ async function buildQueryProfile(messages) {
 
   const request = {
     model: EXTRACTION_MODEL,
-    temperature: 0.1, // low — this is extraction, not creative writing; keep it deterministic
-    // Reasoning models (gpt-oss) need headroom for internal reasoning tokens
-    // on top of the JSON answer, or they get cut off mid-output and fail
-    // json_object validation with an empty failed_generation. Plain instruct
-    // models don't need the extra room but it's harmless to give it anyway.
+    temperature: 0.1,
     max_tokens: IS_REASONING_MODEL ? 1024 : 500,
-    // Groq's JSON mode constrains output to valid JSON. Still worth defensive
-    // parsing below in case a model update changes this behavior.
     response_format: { type: 'json_object' },
     messages: [
       { role: 'system', content: SYSTEM_PROMPT },
@@ -55,10 +47,6 @@ async function buildQueryProfile(messages) {
   };
 
   if (IS_REASONING_MODEL) {
-    // Keep reasoning effort low (this is extraction, not a hard problem) and
-    // strip reasoning tokens out of the response entirely so `content` is
-    // pure JSON — without this, reasoning text can leak into/alongside the
-    // JSON and break response_format validation.
     request.reasoning_effort = 'low';
     request.reasoning_format = 'hidden';
   }

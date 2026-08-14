@@ -20,9 +20,6 @@ router.delete('/:id', deleteChat);
 
 // Manual message store (for system messages or direct saves)
 router.post('/:id/messages', addMessage);
-
-// RAG pipeline endpoint — user sends a message, gets a generated proposal back
-// This is the main endpoint the chatbot frontend should call
 router.post('/:id/generate', generateResponse);
 
 module.exports = router;

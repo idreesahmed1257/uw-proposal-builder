@@ -1,10 +1,3 @@
-// backend/services/pineconeService.js
-//
-// Reusable Pinecone sync logic for PortfolioProject documents.
-// Used by:
-//   - portfolioController.js (real-time sync on create/update/delete)
-//   - scripts/ingestPortfolio.js (one-time/backfill sync for existing data)
-
 const { Pinecone } = require('@pinecone-database/pinecone');
 const { normalizeTags } = require('./tagNormalization');
 
@@ -26,9 +19,6 @@ function buildSourceText(project) {
     .filter(Boolean)
     .join('\n');
 }
-
-// Upserts the current project data into Pinecone as a single vector.
-// Safe to call on create AND update (upsert automatically overwrites by id).
 async function syncProjectToPinecone(project) {
   const index = pc.index(PINECONE_INDEX);
   const sourceText = buildSourceText(project);
@@ -42,11 +32,6 @@ async function syncProjectToPinecone(project) {
       industry: project.industry || '',
       url: project.url || '',
       tags: rawTags,
-      // Canonical form of `tags`, computed via the same TAG_ALIASES map used
-      // on extracted job-description stacks at query time. Keyword-overlap
-      // scoring in retrievalService.js compares against THIS field, not the
-      // free-text `tags` field, so "React", "React.js", "ReactJS" all match
-      // a query stack of "react" consistently.
       normalizedTags: normalizeTags(rawTags),
     }],
   });

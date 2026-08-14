@@ -1,12 +1,3 @@
-// backend/seed/seedPastProposals.js
-//
-// Run with: node seed/seedPastProposals.js
-//
-// Loads the curated tone-example proposals (job_brief -> our_response pairs)
-// into the PastProposal MongoDB collection. Does NOT touch Pinecone —
-// run scripts/ingestPastProposals.js afterwards to embed them, or use
-// scripts/reseedPastProposals.js to do both in one pass.
-
 require('dotenv').config();
 require('dns').setServers(['8.8.8.8', '8.8.4.4']);
 
