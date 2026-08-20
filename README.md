@@ -1,6 +1,4 @@
-Absolutely. Based on the verified repository details plus your confirmations, here is a **ready-to-paste `README.md`**.
 
-````markdown
 # DevNauts Upwork Proposal Builder
 
 An AI-powered internal proposal generation platform built during an internship at DevNauts.
@@ -675,4 +673,4 @@ The project provided practical experience in building an end-to-end AI-powered p
 This project was developed as an internal internship project for DevNauts.
 
 ```
-```
+
